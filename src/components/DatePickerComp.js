@@ -20,7 +20,7 @@ export default function DatePickerComp({unavailableDates, onDateSelect}) {
   
     useEffect(() => {
       setDisabledDates(takenDates);
-    },[takenDates]);
+    },[unavailableDates]);
 
     const handleSelectedDate = (date) => {
       setSelectedDate(date);
@@ -35,7 +35,6 @@ export default function DatePickerComp({unavailableDates, onDateSelect}) {
     selected={selectedDate}
     excludeDates={disabledDates}
     minDate={new Date()}
-    //{...rest}
   />
   </>
   )

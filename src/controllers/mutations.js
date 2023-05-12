@@ -51,3 +51,57 @@ mutation Mutation($email: String!, $password: String!) {
   }
 }
 `
+
+// example Payload for ADD_Reservation: 
+// {
+//   "beginDate": "2023-05-20",
+//   "endDate": "2023-05-25",
+//   "downPaymentPaid": true,
+//   "totalPrice": 50000.00,
+//   "balance": 45000.00,
+//   "paidInFull": false,
+//   "property": "645e99f2b06a06ee99253305",
+//   "customer": "645e9ffb15a54cd3084e822d"
+// }
+
+export const ADD_RESERVATION = gql`
+mutation Mutation($beginDate: String, $endDate: String, $downPaymentPaid: Boolean, $totalPrice: Float, $balance: Float, $paidInFull: Boolean, $property: ID, $customer: ID) {
+  addReservation(beginDate: $beginDate, endDate: $endDate, downPaymentPaid: $downPaymentPaid, totalPrice: $totalPrice, balance: $balance, paidInFull: $paidInFull, property: $property, customer: $customer) {
+    _id
+    balance
+    beginDate
+    customer {
+      _id
+    }
+    downPaymentPaid
+    endDate
+    paidInFull
+    property {
+      _id
+    }
+    totalPrice
+  }
+}
+`
+
+//example Response for ADD_RESERVATION: 
+// {
+//   "data": {
+//     "addReservation": {
+//       "_id": "645ea0fb15a54cd3084e8230",
+//       "balance": 45000,
+//       "beginDate": "1684559105005",
+//       "customer": {
+//         "_id": "645e9ffb15a54cd3084e822d"
+//       },
+//       "downPaymentPaid": true,
+//       "endDate": "1684991105005",
+//       "paidInFull": false,
+//       "property": {
+//         "_id": "645e99f2b06a06ee99253305"
+//       },
+//       "totalPrice": 50000
+//     }
+//   }
+// }
+

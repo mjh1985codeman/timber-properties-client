@@ -21,6 +21,10 @@ export default function PropertyDetails() {
     function RedirectToLogin() {
         navigate('/login');
     }
+
+    function backToProperties() {
+        navigate('/properties');
+    }
     
 
     function GetProperty({id}) {
@@ -36,12 +40,14 @@ export default function PropertyDetails() {
             <h2>{property.name}</h2>
             <h5>{property.addressSt}</h5> 
             <h5>{property.city}, {property.state} {property.zip}</h5>
-            </div>  
+            </div>
+            <div className="button-div">
             {Auth.loggedIn() ? (
                 <button className="addPropBtn" type='click' onClick={RedirectToAddReservation}>Reserve This Property?</button>
             ) : (
                 <div onClick={RedirectToLogin} className="disclaimer">Login or Register to Reserve this property!!!</div>
             )}
+            </div>  
             <PropPics propIdForPics={propId}/>
             </div>
             </>
@@ -56,6 +62,9 @@ export default function PropertyDetails() {
         <Container>  
         <div className='propListDiv' key={propertyId}>
         {GetProperty({id: propertyId})}
+        <div className="button-div">
+        <button className='disclaimer' onClick={backToProperties}>Back To Properties</button>
+        </div>
         </div>
         </Container>    
         </>

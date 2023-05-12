@@ -25,7 +25,6 @@ html {
 
 ::-webkit-scrollbar {
   width: 0.5vh;
-
 }
 
 /*Custom Scroll Bar Style */
@@ -48,6 +47,13 @@ html {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: hsla(0, 0%, 100%, 0.459);
+}
+
+.button-div {
+  display: flex;
+  margin: 5px;
+  justify-content: center;
+  align-items: center;
 }
 
 input[type="date"]:disabled+span>label>span {

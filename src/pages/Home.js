@@ -20,15 +20,11 @@ const Home = () => {
       <Card.ImgOverlay>
         <Card.Title><h2 className='pic-title'>About Timber Properties</h2></Card.Title>
         <Card.Text className='pic-txt'>
-          <p>
           Our company is dedicated to offering a wide range of properties in the vast outdoors.
-          <br></br>
           Whether you're planning a romantic retreat, a family vacation, or a group gathering, we have the perfect property to fit your needs. Our properties are carefully selected and managed to ensure that every guest enjoys a comfortable and stress-free stay in a beautiful and peaceful setting.
           Our team is committed to providing exceptional service, and we are always available to help you with any questions or concerns you may have before, during, or after your stay.
           Thank you for considering our company for your next getaway. 
-          
           We look forward to helping you create unforgettable memories in the stunning mountain destinations we proudly serve. 
-          </p>
         </Card.Text>
       </Card.ImgOverlay>
     </Card>
