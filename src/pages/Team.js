@@ -71,10 +71,9 @@ export default function Team() {
           password: userPassword, 
         };
 
-        const empty = validator.isEmpty(userObj);
-        console.log('empty' , empty);  
+        const notEmpty = validator.notEmpty(userObj);
         //Mutation being called and the propObj being passed in as the variables.
-        if(!empty) {
+        if(notEmpty) {
             await addUser({
               variables: {
                 firstName: userObj.firstName,
@@ -94,7 +93,10 @@ export default function Team() {
         }
       };
 
-  if(Auth.isAdmin()) {
+      const isAdmin = Auth.isAdmin();
+      console.log('isAdmin' , isAdmin);
+
+  if(isAdmin) {
    return (
     <>
     <Container>
