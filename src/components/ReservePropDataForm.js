@@ -4,24 +4,22 @@ import Form from 'react-bootstrap/Form';
 import Modal from './Modal';
 import DatePickerComp from './DatePickerComp';
 import { Container } from 'react-bootstrap';
-import Auth from '../helpers/auth';
+//import Auth from '../helpers/auth';
 
 export default function ReservePropDataForm({propertyId, currentReservations}) {
-    const currentUser = Auth.getLoggedInUser();
+    //const currentUser = Auth.getLoggedInUser();
     const [resBd, setResBd] = useState("");
     const [resEd, setResEd] = useState("");
-    const [resFn, setResFn] = useState(currentUser.data.firstName || "");
-    const [resLn, setResLn] = useState(currentUser.data.lastName || "");
+    const [resFn, setResFn] = useState("");
+    const [resLn, setResLn] = useState("");
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [unavailable, setUnavailable] = useState(null);
     const [checkInDate, setCheckInDate] = useState(null);
     const [checkOutDate, setCheckOutDate] = useState(null);
-
     
-
     useEffect(() => {
-      const unavailableDates = [];
+        const unavailableDates = [];
         currentReservations.forEach(range => {
         let currentDate = new Date(range.beginDate);
         currentDate.setSeconds(0);
@@ -33,7 +31,7 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
         }
         });
         setUnavailable(unavailableDates);
-    },[propertyId]); 
+    },[currentReservations]); 
     
   // Get the disabled dates: 
   const disabledDates = unavailable ? unavailable.map(date => date.toISOString().slice(0, 10)) : [];
