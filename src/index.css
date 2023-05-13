@@ -292,6 +292,13 @@ input[type="date"]:disabled+span>label>span {
   margin: 0.5rem;
 }
 
+/* contact page stylings  */
+.contact-label {
+  margin-bottom: 5px;
+  font-family: 'Cardo, sans-serif';
+  color: var(--text-color);
+}
+
 /* form stylings  */
 .form-container {
   display: flex;

@@ -21,14 +21,14 @@ import Logout from "./pages/Logout";
 import Team from "./pages/Team";
 
 //Production: 
-const httpLink = createHttpLink({
-  uri: 'https://gql-api-timber-properties.onrender.com/graphql',
-});
+// const httpLink = createHttpLink({
+//   uri: 'https://gql-api-timber-properties.onrender.com/graphql',
+// });
 
 //Local Development:
-// const httpLink = createHttpLink({
-//   uri: 'http://localhost:3001/graphql',
-// });
+const httpLink = createHttpLink({
+  uri: 'http://localhost:3001/graphql',
+});
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
