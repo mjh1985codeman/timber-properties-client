@@ -498,6 +498,11 @@ input[type="date"]:disabled+span>label>span {
 
 
 /* Loading component Things. */
+
+.loading-blurb {
+  color: var(--text-color);
+}
+
 .loading {
   margin-top: 25vh;
   display: flex;
