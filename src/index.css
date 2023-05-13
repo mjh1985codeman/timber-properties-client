@@ -19,6 +19,7 @@ html {
   background: -webkit-linear-gradient(49deg, rgba(32, 61, 96, 1) 0%, rgba(28, 52, 82, 1) 4%, rgba(17, 32, 51, 1) 11%, rgba(12, 22, 35, 1) 22%, rgba(16, 31, 49, 1) 45%, rgba(52, 50, 42, 1) 59%, rgba(7, 31, 61, 1) 83%, rgba(40, 53, 63, 1) 93%, rgba(89, 85, 65, 1) 100%, rgba(252, 193, 74, 1) 100%);
   background: linear-gradient(49deg, rgba(32, 61, 96, 1) 0%, rgba(28, 52, 82, 1) 4%, rgba(17, 32, 51, 1) 11%, rgba(12, 22, 35, 1) 22%, rgba(16, 31, 49, 1) 45%, rgba(52, 50, 42, 1) 59%, rgba(7, 31, 61, 1) 83%, rgba(40, 53, 63, 1) 93%, rgba(89, 85, 65, 1) 100%, rgba(252, 193, 74, 1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#203d60", endColorstr="#fcc14a", GradientType=1);
+  background-attachment: fixed;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Cardo&family=Cinzel&display=swap');
@@ -171,15 +172,23 @@ input[type="date"]:disabled+span>label>span {
   color: hsla(40, 97%, 64%, 0.863);
 }
 
-
-
-.navigation {
-  background-color: hsla(0, 0%, 91%, 0.13);
-  border-bottom: solid 3px hsla(61, 100%, 91%, 0.322);
+.the-navigation-bar {
+  position: fixed;
+  top: 0px;
 }
 
-.navigation img {
-  max-height: 15vh;
+.nav-flow-toggle {
+  margin-left: 10px;
+}
+
+.nav-flow {
+  justify-content: center;
+}
+
+.navigation {
+  display: flex;
+  background-color: hsla(0, 0%, 91%, 0.13);
+  border-bottom: solid 3px hsla(61, 100%, 91%, 0.322);
 }
 
 .nav-item {
@@ -204,7 +213,6 @@ input[type="date"]:disabled+span>label>span {
 /* Browse Component Stylings */
 
 /* Home Page Stylings */
-
 .pic-title {
   display: flex;
   background-color: hsla(210, 3%, 39%, 0.781);
@@ -228,6 +236,10 @@ input[type="date"]:disabled+span>label>span {
   color: var(--text-color);
   border: hsla(210, 3%, 15%, 0.74) solid 1px;
   border-radius: 15px;
+}
+
+.home-logo {
+  height: 24vh;
 }
 
 .home-title-div {
@@ -281,7 +293,6 @@ input[type="date"]:disabled+span>label>span {
 }
 
 /* form stylings  */
-
 .form-container {
   display: flex;
   flex-direction: column;
@@ -443,8 +454,8 @@ input[type="date"]:disabled+span>label>span {
 
 /* Media Query Stylings for Properties page.  */
 @media screen and (max-width: 992px) {
-  .home-title {
-    font-size: 30px;
+  .home-logo {
+    height: 14vh;
   }
 
   .propertylist {
@@ -463,7 +474,6 @@ input[type="date"]:disabled+span>label>span {
 }
 
 /* Add Property Stylings.  */
-
 .radioInputDiv {
   display: flex;
   flex-direction: row;

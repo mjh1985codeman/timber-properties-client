@@ -49,7 +49,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
     <Router>
-      <Navigation>
+      <Navigation className='the-navigation-bar'>
         <NavItem to="/" text="Home"/>
         <NavItem to="/contact" text="Contact"/>
         <NavItem to="/properties" text="Properties"/>

@@ -7,16 +7,20 @@ import { Container } from 'react-bootstrap';
 import { ADD_PROPERTY } from '../controllers/mutations';
 import Auth from '../helpers/auth';
 import Loading from '../components/Loading';
+import validator from '../helpers/validators';
+import Modal from '../components/Modal';
 const { GET_S3_BUCKET_URL } = require('../controllers/queries');
 
 
 export default function Property() {
   const navigate = useNavigate();
+  const [showAPEmptyModal, setShowAPEmptyModal] = useState(false);
+  const [showImageRequiredModal, setShowImageRequiredModal] = useState(false);
   const [propName, setPropName] = useState("");
   const [addressSt, setAddressSt] = useState("");
   const [propCity, setPropCity] = useState("");
   const [propState, setPropState] = useState("AL");
-  const [propZip, setPropZip] = useState(null);
+  const [propZip, setPropZip] = useState("");
   const [reserveCost, setReserveCost] = useState("");
   const [reserveReady, setReserveReady] = useState(false);
   const [available, setAvailable] = useState(false);
@@ -30,6 +34,12 @@ export default function Property() {
   const {s3Loading, s3Error, s3Data, refetch} = useQuery(GET_S3_BUCKET_URL, {
     variables: {propId}
   });
+
+  function handleCloseModal() {
+    setShowImageRequiredModal(false);
+    setShowAPEmptyModal(false);
+    window.location.reload();
+  };
 
   function handleInputChange(e) {
       e.preventDefault();
@@ -63,7 +73,7 @@ export default function Property() {
     };
   }
 
-  function sendPicsToS3(url, picArray) {
+  function sendPicsToS3(url, picArray, newId) {
     const jsonPicArrayObj = { images: picArray};
     const jsonPicArrayStr = JSON.stringify({jsonPicArrayObj});
 
@@ -74,7 +84,7 @@ export default function Property() {
     })
     .then((response) => {
       if (response.ok) {
-        navigate(`/properties/${propId}`);
+        navigate(`/properties/${newId}`);
       } else {
         console.error('Upload failed with status', response);
         return response;
@@ -97,11 +107,10 @@ export default function Property() {
     //Use this syntax to force the component to re-render immediately as it detects a change. 
     setImageNames(imageNames => [...imageNames, imageName]);
 };
-  async function handleSubmit(e) {
-      e.preventDefault();
-      // Prevent the browser from reloading the page
-      //LOGIC TO ADD THE PROPERTY. 
-      const propObj = {
+  function generatePropObj() {
+    let obj; 
+    if(propZip !== "" && propZip !== null && propZip !== undefined) {
+      obj = {
         name: propName,
         //hardcoding reserved to false as this would be changed if/when the property is reserved. 
         reserved: false,
@@ -109,48 +118,77 @@ export default function Property() {
         addressSt: addressSt,
         city: propCity,
         state: propState,
-        zip: JSON.parse(propZip),
+        zip: JSON.parse(propZip) || "",
         pictures: propImages, //THIS IS WHAT WE ARE SENDING TO S3. 
-        readyToReserve: JSON.parse(reserveReady),
-        available: JSON.parse(available)
+        readyToReserve: JSON.parse(reserveReady) || "",
+        available: JSON.parse(available) || ""
+      };
+    } else {
+      obj = {fake: ""};
+    };
+      return obj;
+  };
+
+  async function handleSubmit(e) {
+      e.preventDefault();
+      // Prevent the browser from reloading the page
+      //LOGIC TO ADD THE PROPERTY. 
+      const propObj = generatePropObj();
+
+      const allFieldsComplete = validator.notEmpty(propObj);
+
+      if(imageNames.length <= 0) {
+        setShowImageRequiredModal(true);
+      } else if (!allFieldsComplete) {
+        setShowAPEmptyModal(true);
+      }else {
+          const propPicArray = propObj.pictures;
+          //Mutation being called and the propObj being passed in as the variables. 
+          await addProperty({
+            variables: {
+              name: propObj.name,
+              reserved: propObj.reserved,
+              reserveCost: propObj.reserveCost,
+              addressSt: propObj.addressSt,
+              city: propObj.city,
+              state: propObj.state,
+              zip: propObj.zip,
+              readyToReserve: propObj.readyToReserve,
+              available: propObj.available
+            }
+          }).then( async newPropData => {
+              const newPropId = newPropData.data.addProperty._id;
+              //here we can use the id of the newly added property and use that for the s3 stuff. 
+              const s3BucketURL = await refetch({propId: newPropId});
+              if(s3BucketURL) {
+                const s3PresignedURL = s3BucketURL.data.getS3URL;
+                //call the function that sends a request to the s3 bucket with the prop pictures using the
+                //presigned URL.
+                sendPicsToS3(s3PresignedURL, propPicArray, newPropId);
+              } else {
+                console.log('this is the data: ' , data);
+                return `There was an error getting the s3 Bucket URL. ${s3Loading} // ${s3Data} // ${s3Error}`
+              };
+          });
+  
+        if(loading) return <Loading/>;
+        if(error) return `Property Add Error. . .${error.message}`;
+      };
       };
 
-      const propPicArray = propObj.pictures;
-
-      //Mutation being called and the propObj being passed in as the variables. 
-      await addProperty({
-        variables: {
-          name: propObj.name,
-          reserved: propObj.reserved,
-          reserveCost: propObj.reserveCost,
-          addressSt: propObj.addressSt,
-          city: propObj.city,
-          state: propObj.state,
-          zip: propObj.zip,
-          readyToReserve: propObj.readyToReserve,
-          available: propObj.available
-        }
-      }).then( async newPropData => {
-          const newPropId = newPropData.data.addProperty._id;
-          propId = newPropId
-          //here we can use the id of the newly added property and use that for the s3 stuff. 
-          const s3BucketURL = await refetch({propId: propId});
-          if(s3BucketURL) {
-            const s3PresignedURL = s3BucketURL.data.getS3URL;
-            //call the function that sends a request to the s3 bucket with the prop pictures using the
-            //presigned URL.
-            sendPicsToS3(s3PresignedURL, propPicArray);
-          } else {
-            console.log('this is the data: ' , data);
-            return `There was an error getting the s3 Bucket URL. ${s3Loading} // ${s3Data} // ${s3Error}`
-          };
-      });
-      if(loading) return <Loading/>;
-      if(error) return `Property Add Error. . .${error.message}`;
-    };
   return (
     <>
-    <Container>
+    <Container className='form-container'>
+      {showImageRequiredModal ? (
+        <Modal handleClose={handleCloseModal} className='modalstyle'>
+         <h1>You must upload at least one picture to add a property.</h1>
+        </Modal>
+      ) : (null)}
+      {showAPEmptyModal ? (
+        <Modal handleClose={handleCloseModal} className='modalstyle'>
+         <h1>All Fields are Required.</h1>
+        </Modal>
+      ) : (null)}
      {Auth.loggedIn() ? (
        <Form className='formstyle' onSubmit={handleSubmit}>
        <Form.Group className='formcontent'>

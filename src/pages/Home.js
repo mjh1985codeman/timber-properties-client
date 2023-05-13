@@ -2,6 +2,7 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Card from 'react-bootstrap/Card';
 import homPic from '../assets/home-pic.jpg';
+import mainLogo from '../assets/timber-prop-logo.png';
 
 
 const Home = () => {
@@ -9,7 +10,7 @@ const Home = () => {
   return (
     <Container>
     <div className="home-title-div">
-    <h1 className="home-title">Timber Properties</h1>
+    <img className ='home-logo' src={mainLogo} alt="a cabin in the snow."></img>
     </div>
     <div className="home-quote">  
     <h2>"A place to kick your feet up."</h2>
