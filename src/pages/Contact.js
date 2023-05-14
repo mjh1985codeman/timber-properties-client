@@ -99,12 +99,13 @@ export default function ContactForm() {
             <h4>Thank you for your submission!  We will be in contact shortly.</h4>
       </Modal>
       ) : (null)}      
-      <h1>Contact me</h1>
+      <p className='big-disclaimer'>Have a question or something to get off your chest?  Reach out and we'll get back with you ASAP!</p>
       <Form className={formClass} onSubmit={handleFormSubmit}>
       <Form.Group className='formcontent'>
         <Form.Label className='formlabel'>
-          <h3>Name</h3>
+          <h3>Your Name</h3>
           <input
+            className="contact-inputs"
             placeholder='James Smith'
             name="cName"
             type="text"
@@ -113,8 +114,9 @@ export default function ContactForm() {
           />
         </Form.Label>
         <Form.Label className='formlabel'>
-          <h3>Email</h3>
+          <h3>Your Email</h3>
           <input
+            className="contact-inputs"
             placeholder='youremailaddress@goeshere.com'
             name="email"
             type="email"
@@ -123,8 +125,9 @@ export default function ContactForm() {
           />
         </Form.Label>
         <Form.Label className='formlabel'>
-          <h3>Message</h3>
+          <h3>Your Message</h3>
           <textarea
+            className="contact-inputs"
             placeholder='Say what you need to say!'
             name="message"
             id="message"

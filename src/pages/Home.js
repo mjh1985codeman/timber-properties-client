@@ -1,7 +1,7 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
 import Card from 'react-bootstrap/Card';
-import homPic from '../assets/home-pic.jpg';
+import homPic from '../assets/cabin-in-the-woods.jpg';
 import mainLogo from '../assets/timber-prop-logo.png';
 
 
@@ -17,7 +17,7 @@ const Home = () => {
     </div>     
 
     <Card className="bg-dark text-white">
-      <Card.Img className="gate-img" src={homPic} alt="Card image" />
+      <Card.Img className="home-img" src={homPic} alt="A beautiful cabin in the snowy woods on a lake." />
       <Card.ImgOverlay>
         <Card.Title><h2 className='pic-title'>About Timber Properties</h2></Card.Title>
         <Card.Text className='pic-txt'>
