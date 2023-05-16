@@ -8,7 +8,6 @@ import Auth from './helpers/auth';
 
 
 //Components and Pages.
-import Navigation from "./components/Navigation";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import NavItem from "./components/NavItem";
@@ -58,7 +57,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
     <Router>
-      <Navigation className='the-navigation-bar'>
+        <div className='navigation'>
         <NavItem to="/" text="Home" icon={<HiHomeModern/>}/>
         <NavItem to="/contact" text="Contact" icon={<SiMaildotru/>}/>
         <NavItem to="/properties" text="Properties" icon={<BiBuildingHouse/>}/>
@@ -68,7 +67,7 @@ function App() {
         {!Auth.loggedIn() ? (
           <NavItem to="/login" text="Login" icon={<HiLogin/>}></NavItem>
           ) : (<NavItem to="/logout"text="Logout" icon={<GiExitDoor/>}></NavItem>)}
-      </Navigation>
+        </div>
       <Routes>
         <Route exact path="/" element={<Home/>} />
         <Route path="/login" element={<Login/>} />

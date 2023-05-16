@@ -185,31 +185,31 @@ input[type="date"]:disabled+span>label>span {
 }
 
 .nav-it-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px
+  margin: 5px;
+  padding: 2px
 }
 
 .icon {
-  color: hsla(40, 97%, 64%, 0.678);
+  color: hsla(40, 97%, 64%, 0.884);
+  padding: 5px;
+  margin: 2px;
 }
 
-.the-navigation-bar {
-  position: fixed;
-  top: 0px;
+.active {
+  background-color: hsla(0, 100%, 99%, 0.267);
+  border-radius: 10px;
+  box-shadow: 0 3px 10px hsla(0, 0%, 100%, 0.856);
 }
 
 .nav-flow-toggle {
   margin-left: 10px;
 }
 
-.nav-flow {
-  justify-content: center;
-}
 
 .navigation {
   display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
   background-color: hsla(0, 0%, 91%, 0.13);
   border-bottom: solid 3px hsla(61, 100%, 91%, 0.322);
 }
@@ -223,9 +223,9 @@ input[type="date"]:disabled+span>label>span {
   opacity: 0.5;
 }
 
-.nav-item:active {
+/* .nav-item:active {
   color: hsla(40, 97%, 64%, 0.863);
-}
+} */
 
 .toggle-box {
   border: white solid 2px;
