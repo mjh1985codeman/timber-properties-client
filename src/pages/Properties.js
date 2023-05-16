@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/client';
 import { useNavigate} from "react-router-dom";
 import Loading from '../components/Loading.js';
 import Auth from '../helpers/auth.js';
+import Format from '../helpers/formatter.js';
 const {GET_PROPERTIES} = require('../controllers/queries.js');
 
 
@@ -22,15 +23,17 @@ export default function Properties(props) {
         ) : (null)}  
         </div>
         <div className='propertylist'>
-        {propArray.map(property => (
+        {propArray.map(property => (property.available ? (
         <div key={property._id} className='propertyCard'>
         <a className='proplink' href={`/properties/${property._id}`}>
         <h2>{property.name}</h2>
-        </a>  
+        </a> 
+        <h4 className='prop-cost'>{Format.showUSDollar(property.reserveCost)} / day.</h4> 
         <h5>{property.addressSt}</h5> 
         <h5>{property.city}, {property.state} {property.zip}</h5>
-        </div>  
-        ))}
+        </div>) : (
+          null
+        )))}
         </div>  
         </>
     } else if(propData.loading) {

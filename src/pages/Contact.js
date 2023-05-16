@@ -86,19 +86,19 @@ export default function ContactForm() {
 
   // JSX
   return (
-    <Container className='form-container'>
-      {showErrorModal ? (
+    <Container className="form-container">
+    {showErrorModal ? (
       <Modal handleClose={handleCloseModal} className='modalstyle overlay'>
-            <h1>All Fields are Required!</h1>
-            <h4>Please Verify all fields and try again.</h4>
+      <h1>All Fields are Required!</h1>
+      <h4>Please Verify all fields and try again.</h4>
       </Modal>
       ) : (null)}      
       {showSuccessModal ? (
-      <Modal handleClose={handleCloseModal} className='modalstyle overlay'>
-            <h1>Your message has been sent!</h1>
-            <h4>Thank you for your submission!  We will be in contact shortly.</h4>
-      </Modal>
-      ) : (null)}      
+        <Modal handleClose={handleCloseModal} className='modalstyle overlay'>
+        <h1>Your message has been sent!</h1>
+        <h4>Thank you for your submission!  We will be in contact shortly.</h4>
+        </Modal>
+        ) : (null)}      
       <p className='big-disclaimer'>Have a question or something to get off your chest?  Reach out and we'll get back with you ASAP!</p>
       <Form className={formClass} onSubmit={handleFormSubmit}>
       <Form.Group className='formcontent'>

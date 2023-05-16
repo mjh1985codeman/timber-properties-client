@@ -120,8 +120,8 @@ export default function Property() {
         state: propState,
         zip: JSON.parse(propZip) || "",
         pictures: propImages, //THIS IS WHAT WE ARE SENDING TO S3. 
-        readyToReserve: JSON.parse(reserveReady) || "",
-        available: JSON.parse(available) || ""
+        readyToReserve: JSON.parse(reserveReady),
+        available: JSON.parse(available)
       };
     } else {
       obj = {fake: ""};

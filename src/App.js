@@ -6,6 +6,7 @@ import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Auth from './helpers/auth';
 
+
 //Components and Pages.
 import Navigation from "./components/Navigation";
 import Home from "./pages/Home";
@@ -20,15 +21,23 @@ import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Team from "./pages/Team";
 
+//nav icons
+import {HiLogin} from 'react-icons/hi'
+import {HiHomeModern} from 'react-icons/hi2'
+import {SiMaildotru} from 'react-icons/si'
+import {BiBuildingHouse} from 'react-icons/bi'
+import {RiTeamLine} from 'react-icons/ri'
+import {GiExitDoor} from 'react-icons/gi'
+
 //Production: 
-const httpLink = createHttpLink({
-  uri: 'https://gql-api-timber-properties.onrender.com/graphql',
-});
+// const httpLink = createHttpLink({
+//   uri: 'https://gql-api-timber-properties.onrender.com/graphql',
+// });
 
 //Local Development:
-// const httpLink = createHttpLink({
-//   uri: 'http://localhost:3001/graphql',
-// });
+const httpLink = createHttpLink({
+  uri: 'http://localhost:3001/graphql',
+});
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
@@ -50,15 +59,15 @@ function App() {
     <ApolloProvider client={client}>
     <Router>
       <Navigation className='the-navigation-bar'>
-        <NavItem to="/" text="Home"/>
-        <NavItem to="/contact" text="Contact"/>
-        <NavItem to="/properties" text="Properties"/>
+        <NavItem to="/" text="Home" icon={<HiHomeModern/>}/>
+        <NavItem to="/contact" text="Contact" icon={<SiMaildotru/>}/>
+        <NavItem to="/properties" text="Properties" icon={<BiBuildingHouse/>}/>
         {Auth.isAdmin() ? (
-          <NavItem to="/team" text="Team"></NavItem>
+          <NavItem to="/team" text="Team" icon={<RiTeamLine/>}></NavItem>
           ) : (null)}
         {!Auth.loggedIn() ? (
-          <NavItem to="/login" text="Login"></NavItem>
-          ) : (<NavItem to="/logout"text="LOGOUT"></NavItem>)}
+          <NavItem to="/login" text="Login" icon={<HiLogin/>}></NavItem>
+          ) : (<NavItem to="/logout"text="Logout" icon={<GiExitDoor/>}></NavItem>)}
       </Navigation>
       <Routes>
         <Route exact path="/" element={<Home/>} />

@@ -184,8 +184,15 @@ input[type="date"]:disabled+span>label>span {
   opacity: 0.7;
 }
 
+.nav-it-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px
+}
+
 .icon {
-  color: hsla(40, 97%, 64%, 0.863);
+  color: hsla(40, 97%, 64%, 0.678);
 }
 
 .the-navigation-bar {
@@ -207,13 +214,12 @@ input[type="date"]:disabled+span>label>span {
   border-bottom: solid 3px hsla(61, 100%, 91%, 0.322);
 }
 
-.nav-item {
+.nav-text {
   color: var(--text-color);
   font-family: 'Cardo', sans-serif;
-  margin: 10px;
 }
 
-.nav-item:hover {
+.nav-it-group:hover {
   opacity: 0.5;
 }
 
@@ -443,6 +449,14 @@ input[type="date"]:disabled+span>label>span {
   color: hsla(40, 97%, 64%, 0.863);
 }
 
+.prop-cost {
+  font-size: 24px;
+  font-style: italic;
+  font-weight: bold;
+  color: hsl(240, 50%, 10%);
+  text-shadow: 1px 1px 1px hsla(0, 0%, 100%, 0.233), 0 0 1em hsla(0, 0%, 61%, 0.171), 0 0 0.2em rgba(255, 255, 255, 0.342);
+}
+
 .proplink {
   color: hsla(206, 30%, 51%, 0.548) !important;
 }
@@ -453,6 +467,10 @@ input[type="date"]:disabled+span>label>span {
 
 .proplink:active {
   color: rgba(255, 255, 255, 0.541) !important;
+}
+
+.unavailable {
+  opacity: 0.5;
 }
 
 .btn-div {
