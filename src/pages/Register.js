@@ -93,8 +93,6 @@ export default function Register() {
           password: userPassword, 
         };
 
-        console.log('userObj: ' , userObj);
-
         const notEmpty = validator.notEmpty(userObj);
         const enoughCharacters = validator.pwValidator(userObj.password); 
         //Mutation being called and the propObj being passed in as the variables.

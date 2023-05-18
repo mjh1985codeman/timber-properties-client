@@ -6,6 +6,12 @@ class Formatter {
         }).format(value);
         return usCost;
     }
+
+    dateFormat(date) {
+        const parts = date.split('-');
+        const formattedDate = `${parts[1]}-${parts[2]}-${parts[0]}`;
+        return formattedDate;
+    }
   }
   
   const formatter = new Formatter();

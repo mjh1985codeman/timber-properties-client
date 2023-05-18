@@ -103,6 +103,21 @@ input[type="date"]:disabled+span>label>span {
   cursor: pointer;
 }
 
+.disclaimer-text {
+  font-family: 'Cardo', sans-serif;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: bolder;
+  color: hsl(0, 0%, 0%);
+  background-color: hsla(0, 0%, 100%, 0.925);
+  border: solid 2px hsla(0, 0%, 0%, 0.534);
+  box-shadow: 0 3px 10px hsla(40, 92%, 20%, 0.658);
+  border-radius: 15px;
+  padding: 4px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 /* Modal Stylings */
 
 .modal-open {

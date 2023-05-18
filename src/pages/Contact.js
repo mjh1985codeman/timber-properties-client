@@ -21,7 +21,6 @@ export default function ContactForm() {
 
   //Modal State Things// 
   function resetState() {
-    console.log('reset state being called');
     setContactFormState(initialFormState);
     setShowSuccessModal(false);
     setShowErrorModal(false);

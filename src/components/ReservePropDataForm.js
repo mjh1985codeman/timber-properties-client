@@ -1,22 +1,60 @@
 import React, {useState, useEffect} from 'react';
+import { useQuery } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from './Modal';
 import DatePickerComp from './DatePickerComp';
 import { Container } from 'react-bootstrap';
-//import Auth from '../helpers/auth';
+import Format from '../helpers/formatter';
+import Auth from '../helpers/auth';
+const {GET_PROPERTY_BY_ID} = require('../controllers/queries');
 
 export default function ReservePropDataForm({propertyId, currentReservations}) {
-    //const currentUser = Auth.getLoggedInUser();
+
     const [resBd, setResBd] = useState("");
     const [resEd, setResEd] = useState("");
-    const [resFn, setResFn] = useState("");
-    const [resLn, setResLn] = useState("");
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [unavailable, setUnavailable] = useState(null);
     const [checkInDate, setCheckInDate] = useState(null);
     const [checkOutDate, setCheckOutDate] = useState(null);
+
+    const navigate = useNavigate();
+
+    //Get Logged In user Details: 
+    const user = Auth.getLoggedInUser();
+
+    //Get the propertyDetails:
+      let resCost = 0; 
+      function GetProperty({id}) {
+        const {loading, error, data} = useQuery(GET_PROPERTY_BY_ID, {
+        variables: {id},
+        });
+        if(data) {
+            const property = data.getProperty;
+            resCost = property.reserveCost; 
+            return<>
+            <div className='propDetailDiv' key={propertyId}>
+            <h4>Hello {user.data.firstName}!!!</h4>
+            <p>Please select a check in, check out date to get started on your epic get away!</p>
+            <div key={property._id} className='propertyCard'>
+            <p className='disclaimer-text'>You are filling out a request for the below property.</p>
+            <h2>{property.name}</h2>
+            <h4 className='prop-cost'>{Format.showUSDollar(property.reserveCost)} / day.</h4>
+            <h5>{property.addressSt}</h5> 
+            <h5>{property.city}, {property.state} {property.zip}</h5>
+            </div>
+            </div>
+            </> 
+        } else if(loading) {
+            return '...Loading';
+        } else if (error) {
+            return `Error!!! ${error}`;
+        }
+    };
+
+    let numberOfNights = 0;
     
     useEffect(() => {
         const unavailableDates = [];
@@ -42,16 +80,6 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
     window.location.reload();
   };
 
-    function handleInputChange(e) {
-        e.preventDefault();
-        const {name, value} = e.target;
-        if (name === 'fn') {
-            return setResFn(value);
-        } else if (name === 'ln') {
-            return setResLn(value)
-        };
-    }
-
     const handleCheckInDateSelect = (date) => {
       setCheckInDate(date);
       const dateObject = new Date(date);
@@ -65,6 +93,11 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
       const formattedDate = dateObject.toISOString().slice(0, 10);
       setResEd(formattedDate);
     };
+
+    function getResNumberOfNights(resDates) {
+      const numberOfNights = resDates.length;
+      return numberOfNights;
+    }
 
     function getRequestedDateRange() {
       const allRequestedDates = [];
@@ -84,23 +117,22 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
          // will need to compare this wiht the unavailable range to check for overlap.
         const requestedDates = getRequestedDateRange();
         let noMatchFound = true;
-        console.log('requestedDates: ' , requestedDates);
         if(requestedDates.length <= 0) {
           noMatchFound = false;
         }
         if(requestedDates) {
           for (let i = 0; i < requestedDates.length; i++) {
             if (unavailable.toString().includes(requestedDates[i].toString())) {
-              console.log('Match found:', requestedDates[i]);
               noMatchFound = false;
-            } 
-          }
+            }
+            numberOfNights = getResNumberOfNights(requestedDates); 
+          };
         }
         return noMatchFound;
       };
 
       function verifyFields() {
-        if(resBd !== "" && resEd !== "" && resFn !== "" && resLn !== "") {
+        if(resBd !== "" && resEd !== "") {
           return true;
         } else {
           return false;
@@ -112,18 +144,26 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
       e.preventDefault(); 
       const completedForm = verifyFields();
       const validRangeRequested = verifyRange(); 
-    
-      console.log(completedForm , ' & ' , validRangeRequested);
+
       if(completedForm && validRangeRequested) {
+            const resLength = numberOfNights;
+            const totalCost = Format.showUSDollar(resLength * resCost);
+            const userId = user.data._id; 
+            //Will figure out the reservation cost here. 
             const resObj = {
               beginDate: resBd,
               endDate: resEd,
-              firstName: resFn,
-              lastName: resLn
-          };
-          console.log('resObj: ' , resObj);
-          console.log(`${resObj.firstName} ${resObj.lastName} submitted reservation request for property ${propertyId}`);  
-          setShowSuccessModal(true);   
+              downPaymentPaid: false,
+              totalPrice: totalCost,
+              balance: totalCost,
+              paidInFull: false,
+              property: propertyId,
+              customer: userId,
+              numberOfDays: resLength 
+          }; 
+          //add validation to the resObj object?  
+          navigate(`/reserve/${propertyId}/confirm`, {state: {res: resObj}});   
+          //setShowSuccessModal(true);
         } else {
             setShowErrorModal(true);
             //resetState();
@@ -145,6 +185,7 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
             <h4>Please check your email for additional details.</h4>
         </Modal>
         ) : (null)}
+        {GetProperty({id: propertyId})}
         <Form className='formstyle' onSubmit={handleSubmit}>
         <Form.Group className='formcontent'>
         <Form.Label className='formlabel'>
@@ -155,15 +196,7 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
               <h2>Check Out</h2>
               <DatePickerComp name="ed" onDateSelect={handleCheckOutDateSelect} unavailableDates={disabledDates}/>
             </Form.Label>
-            <Form.Label>
-                <h3>First Name</h3>
-                <input className='calinput' name="fn" value={resFn} onChange={handleInputChange}/>
-            </Form.Label>
-            <Form.Label>
-                <h3>Last Name</h3>
-                <input className='calinput' name="ln" value={resLn} onChange={handleInputChange}/>
-            </Form.Label>
-          <Button type="submit">Submit form</Button>
+          <Button type="submit">Next</Button>
         </Form.Group>
         </Form> 
         </Container>

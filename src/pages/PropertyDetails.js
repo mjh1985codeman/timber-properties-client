@@ -4,6 +4,7 @@ import {Container} from 'react-bootstrap';
 import Loading from '../components/Loading';
 import PropPics from '../components/PropPics';
 import { useQuery } from '@apollo/client';
+import Format from '../helpers/formatter';
 
 //helpers and controllers. 
 import Auth from '../helpers/auth';
@@ -38,6 +39,7 @@ export default function PropertyDetails() {
             <div className='propDetailDiv' key={propertyId}>
             <div key={property._id} className='propertyCard'>
             <h2>{property.name}</h2>
+            <h4 className='prop-cost'>{Format.showUSDollar(property.reserveCost)} / day.</h4>
             <h5>{property.addressSt}</h5> 
             <h5>{property.city}, {property.state} {property.zip}</h5>
             </div>

@@ -1,7 +1,6 @@
 class Validator {
     notEmpty(obj) {
       const objValues = Object.values(obj);
-      console.log('validator obj: ', objValues);
       const noEmptyValues = objValues.every(val => val !== "" && val !== null);
       if (noEmptyValues) {
         return true;

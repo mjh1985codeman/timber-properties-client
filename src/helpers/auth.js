@@ -41,7 +41,6 @@ class AuthService {
         const expired = this.isTokenExpired(token);
         const decodedToken = decode(token);
         const role = decodedToken.data.role;
-        console.log('what is the role here? ' , role);
         if(!expired && role === 'Admin') {
         return true
         }

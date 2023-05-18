@@ -94,7 +94,6 @@ export default function Team() {
       };
 
       const isAdmin = Auth.isAdmin();
-      console.log('isAdmin' , isAdmin);
 
   if(isAdmin) {
    return (
