@@ -60,7 +60,6 @@ export default function ReservationConfirm() {
             checkOutDate: formattedCheckOut,
             customerEmail: resDetails.customer.email,
             customerName: resDetails.customer.firstName + " " + resDetails.customer.lastName,
-            emailBody: `Thank You For your Reservation Request!  Your reservation details are listed below.`,
             propertyAddress: propAddy,
             propertyName: resDetails.property.name,
             totalPrice: resDetails.totalPrice

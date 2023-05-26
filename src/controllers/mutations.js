@@ -117,7 +117,6 @@ mutation Mutation($emailInput: ReservationEmailInput) {
 //     "checkOutDate": null,
 //     "customerEmail": null,
 //     "customerName": null,
-//     "emailBody": null,
 //     "propertyAddress": null,
 //     "propertyName": null,
 //     "totalPrice": null
