@@ -105,3 +105,22 @@ mutation Mutation($beginDate: String, $endDate: String, $downPaymentPaid: Boolea
 //   }
 // }
 
+export const SEND_EMAIL_CONFIRMATION = gql`
+mutation Mutation($emailInput: ReservationEmailInput) {
+  sendReservationEmailConfirmation(emailInput: $emailInput)
+}
+`
+
+// {
+//   "emailInput": {
+//     "checkInDate": null,
+//     "checkOutDate": null,
+//     "customerEmail": null,
+//     "customerName": null,
+//     "emailBody": null,
+//     "propertyAddress": null,
+//     "propertyName": null,
+//     "totalPrice": null
+//   }
+// }
+

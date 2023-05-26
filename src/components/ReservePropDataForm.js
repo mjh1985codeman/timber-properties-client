@@ -19,6 +19,7 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
     const [unavailable, setUnavailable] = useState(null);
     const [checkInDate, setCheckInDate] = useState(null);
     const [checkOutDate, setCheckOutDate] = useState(null);
+    const [theReservedProperty, setTheReservedProperty] = useState({});
 
     const navigate = useNavigate();
 
@@ -31,6 +32,15 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
         const {loading, error, data} = useQuery(GET_PROPERTY_BY_ID, {
         variables: {id},
         });
+
+        useEffect(() => {
+          console.log('useEffect data: ' , data);
+          if(data) {
+            const prop = data.getProperty;
+            setTheReservedProperty(prop);
+          }
+      }, [data]);
+
         if(data) {
             const property = data.getProperty;
             resCost = property.reserveCost; 
@@ -148,7 +158,6 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
       if(completedForm && validRangeRequested) {
             const resLength = numberOfNights;
             const totalCost = Format.showUSDollar(resLength * resCost);
-            const userId = user.data._id; 
             //Will figure out the reservation cost here. 
             const resObj = {
               beginDate: resBd,
@@ -157,8 +166,8 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
               totalPrice: totalCost,
               balance: totalCost,
               paidInFull: false,
-              property: propertyId,
-              customer: userId,
+              property: theReservedProperty,
+              customer: user.data,
               numberOfDays: resLength 
           }; 
           //add validation to the resObj object?  
