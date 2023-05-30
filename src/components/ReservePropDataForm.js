@@ -16,6 +16,7 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
     const [resEd, setResEd] = useState("");
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [showMaxRangeError, setShowMaxRangeError] = useState(false);
     const [unavailable, setUnavailable] = useState(null);
     const [checkInDate, setCheckInDate] = useState(null);
     const [checkOutDate, setCheckOutDate] = useState(null);
@@ -34,7 +35,6 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
         });
 
         useEffect(() => {
-          console.log('useEffect data: ' , data);
           if(data) {
             const prop = data.getProperty;
             setTheReservedProperty(prop);
@@ -87,6 +87,7 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
   function handleCloseModal() {
     setShowErrorModal(false);
     setShowSuccessModal(false);
+    setShowMaxRangeError(false);
     window.location.reload();
   };
 
@@ -112,37 +113,43 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
     function getRequestedDateRange() {
       const allRequestedDates = [];
       let currentDate = checkInDate;
-      currentDate.setHours(0);
-      currentDate.setMinutes(0);
-      currentDate.setSeconds(0);
-  
-      while (currentDate <= checkOutDate) {
-        allRequestedDates.push(new Date(currentDate));
-        currentDate.setDate(currentDate.getDate() + 1); // add one day
-      };
+      if(currentDate) {
+        currentDate.setHours(0);
+        currentDate.setMinutes(0);
+        currentDate.setSeconds(0);
+    
+        while (currentDate <= checkOutDate) {
+          allRequestedDates.push(new Date(currentDate));
+          currentDate.setDate(currentDate.getDate() + 1); // add one day
+        };
+      }
       return allRequestedDates;
     };
 
     function verifyRange() {  
          // will need to compare this wiht the unavailable range to check for overlap.
         const requestedDates = getRequestedDateRange();
-        let noMatchFound = true;
+        let goodRange = true;
+        if(requestedDates.length > 60) {
+          setShowMaxRangeError(true);
+          goodRange = 'Maximum Dates Exceeded'
+        }; 
         if(requestedDates.length <= 0) {
-          noMatchFound = false;
+          goodRange = false;
         }
         if(requestedDates) {
           for (let i = 0; i < requestedDates.length; i++) {
             if (unavailable.toString().includes(requestedDates[i].toString())) {
-              noMatchFound = false;
+              goodRange = false;
             }
             numberOfNights = getResNumberOfNights(requestedDates); 
           };
         }
-        return noMatchFound;
+        return goodRange;
       };
 
       function verifyFields() {
-        if(resBd !== "" && resEd !== "") {
+        if(resBd !== "" && resEd !== "" && resBd !== null && resEd !== null) {
           return true;
         } else {
           return false;
@@ -155,7 +162,7 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
       const completedForm = verifyFields();
       const validRangeRequested = verifyRange(); 
 
-      if(completedForm && validRangeRequested) {
+      if(completedForm && validRangeRequested !== 'Maximum Dates Exceeded' && validRangeRequested) {
             const resLength = numberOfNights;
             const totalCost = Format.showUSDollar(resLength * resCost);
             //Will figure out the reservation cost here. 
@@ -173,9 +180,11 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
           //add validation to the resObj object?  
           navigate(`/reserve/${propertyId}/confirm`, {state: {res: resObj}});   
           //setShowSuccessModal(true);
-        } else {
+        } else if (!completedForm || !validRangeRequested) {
             setShowErrorModal(true);
             //resetState();
+          } else if (validRangeRequested === 'Maximum Dates Exceeded') {
+            setShowMaxRangeError(true);
           }
       };
 
@@ -186,6 +195,12 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
         <Modal handleClose={handleCloseModal} className='modalstyle'>
             <h1>Reservation Request Failed.</h1>
             <h4>Looks like you may have requested some dates that are not available.  Please Check all fields and try again.</h4>
+        </Modal>
+        ) : (null)}
+        {showMaxRangeError ? (
+        <Modal handleClose={handleCloseModal} className='modalstyle'>
+            <h1>Whoa Leave some days for the rest of us.</h1>
+            <h4>Max Number of Days you can reserve a property for is 60 days.</h4>
         </Modal>
         ) : (null)}
         {showSuccessModal ? (
