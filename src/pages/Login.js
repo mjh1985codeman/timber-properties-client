@@ -10,7 +10,6 @@ import Auth from '../helpers/auth';
 import validator from '../helpers/validators';
 
 //Components.
-//import Loading from '../components/Loading';
 import Modal from '../components/Modal';
 
 export default function LoginRegisterModal() {
@@ -20,7 +19,24 @@ export default function LoginRegisterModal() {
     const [showInvalidLoginModal, setShowInvalidLoginModal] = useState(false);
     const [formClass, setFormClass] = useState("");
     const [formState, setFormState] = useState({ email: '', password: '' });
-    const [login, { error }] = useMutation(LOGIN);
+    const [loadingLogin, setLoadingLogin] = useState(false);
+
+    const [login] = useMutation(LOGIN, {
+      onCompleted: (data) => {
+        setLoadingLogin(false);
+        // Handle the successful login
+        if (data) {
+          const token = data.login.token;
+          Auth.login(token);
+        }
+      },
+      onError: (error) => {
+        setLoadingLogin(false);
+        // Handle login errors
+        callInvalidLoginModal();
+        console.log('error with login:', error);
+      },
+    });
     
     const navigate = useNavigate();
 
@@ -53,26 +69,24 @@ export default function LoginRegisterModal() {
         resetState();
     };
   
-    const handleFormSubmit = async (event) => {
-      event.preventDefault();
-      const emailNotEmpty = validator.notEmpty(formState.email);
-      const pwNotEmpty = validator.notEmpty(formState.password);
-  
-      if(emailNotEmpty || pwNotEmpty) {
-        try {
-          const mutationResponse = await login({
-            variables: { email: formState.email, password: formState.password },
-          });
-          const token = mutationResponse.data.login.token;
-          Auth.login(token);
-        } catch {
-          callInvalidLoginModal();
-          console.log('error with login: ' , error);
-        }
-      } else {
-        callIncompleteModal();
-      }
-    };
+const handleFormSubmit = async (event) => {
+  event.preventDefault();
+  const emailNotEmpty = validator.notEmpty(formState.email);
+  const pwNotEmpty = validator.notEmpty(formState.password);
+
+  if (emailNotEmpty || pwNotEmpty) {
+    try {
+      setLoadingLogin(true);
+      await login({
+        variables: { email: formState.email, password: formState.password },
+      });
+    } catch (error) {
+      // onError callback will handle the error
+    }
+  } else {
+    callIncompleteModal();
+  }
+};
   
     const handleChange = (event) => {
       const { name, value } = event.target;
@@ -119,7 +133,9 @@ export default function LoginRegisterModal() {
             />
             </Form.Label>
           <div className="flex-row flex-end">
-            <button type="submit">LOGIN</button>
+          <button type="submit" disabled={loadingLogin}>
+          {loadingLogin ? 'Logging in...' : 'LOGIN'}
+          </button>
           </div>
         </Form.Group>  
         </Form>

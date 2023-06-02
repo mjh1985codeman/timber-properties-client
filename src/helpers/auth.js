@@ -26,11 +26,8 @@ class AuthService {
   verifyToken(token) {
     try {
       const decoded = decode(token);
-      console.log('decoded token: ' , decoded);
       const hasEmail = decoded.data.email || undefined;
-      console.log('hasEmail: ' , hasEmail);
       if (decoded.exp > Date.now() / 1000 && hasEmail) {
-        console.log('this is a valid token.')
         return true;
       }
     } catch (err) {
