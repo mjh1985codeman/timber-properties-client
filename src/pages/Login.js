@@ -28,6 +28,11 @@ export default function LoginRegisterModal() {
       navigate('/register');
     }
 
+    function redirectToForgotPassword() {
+      console.log('redirect to forgot password has been pushed.')
+      navigate('/requestpwreset');
+    }
+
     function resetState() {
       setShowIncompleteModal(false);
       setShowInvalidLoginModal(false);
@@ -120,6 +125,9 @@ export default function LoginRegisterModal() {
         </Form>
           <div className='disclaimer' onClick={redirectToRegister}>
           Don't have a Login? Click here to Register!
+          </div>
+          <div className='disclaimer' onClick={redirectToForgotPassword}>
+          Reset Password
           </div>
       </Container>
       </>

@@ -21,6 +21,8 @@ import Logout from "./pages/Logout";
 import Team from "./pages/Team";
 import ReservationConfirm from "./components/ReservationConfirm";
 import ThankYou from "./pages/ThankYou";
+import ResetPWRequestComp from "./components/ResetPWRequestComp";
+import ResetPWConfirm from "./components/ResetPWConfirm";
 
 //nav icons
 import {HiLogin} from 'react-icons/hi'
@@ -30,15 +32,16 @@ import {BiBuildingHouse} from 'react-icons/bi'
 import {RiTeamLine} from 'react-icons/ri'
 import {GiExitDoor} from 'react-icons/gi'
 
+
 //Production: 
-const httpLink = createHttpLink({
-  uri: 'https://gql-api-timber-properties.onrender.com/graphql',
-});
+// const httpLink = createHttpLink({
+//   uri: 'https://gql-api-timber-properties.onrender.com/graphql',
+// });
 
 //Local Development:
-// const httpLink = createHttpLink({
-//   uri: 'http://localhost:3001/graphql',
-// });
+const httpLink = createHttpLink({
+  uri: 'http://localhost:3001/graphql',
+});
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
@@ -82,6 +85,8 @@ function App() {
         <Route path="/properties/:propertyId" element={<PropertyDetails/>}/>
         <Route path="/reserve/:propertyId" element={<ReserveProperty/>}/>
         <Route path="/reserve/:propertyId/confirm" element={<ReservationConfirm/>}/>
+        <Route path="/requestpwreset" element={<ResetPWRequestComp/>}/>
+        <Route path="/reset/:token" element={<ResetPWConfirm/>} />
         <Route path="/thankyou" element={<ThankYou/>}/>
         <Route
           render={() => (

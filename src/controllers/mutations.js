@@ -123,3 +123,22 @@ mutation Mutation($emailInput: ReservationEmailInput) {
 //   }
 // }
 
+export const GET_PW_RESET_LINK = gql`
+mutation Mutation($email: String) {
+  getPwResetLink(email: $email)
+}
+`
+
+export const SEND_PW_RESET_EMAIL = gql`
+mutation Mutation($resetEmailInput: ResetPWEmailInput) {
+  sendPasswordResetEmail(resetEmailInput: $resetEmailInput)
+}
+`
+
+// {
+//   "resetEmailInput": {
+//     "customerEmail": "",
+//     "link": ""
+//   }
+// }
+
