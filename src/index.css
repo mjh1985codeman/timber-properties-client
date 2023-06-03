@@ -99,7 +99,8 @@ input[type="date"]:disabled+span>label>span {
   margin-bottom: 20px;
 }
 
-.disclaimer:hover {
+.disclaimer,
+.big-disclaimer:hover {
   cursor: pointer;
 }
 
@@ -251,12 +252,27 @@ input[type="date"]:disabled+span>label>span {
 
 /* Home Page Stylings */
 
+.home-container {
+  max-width: 90%;
+  padding-bottom: 20px;
+}
+
 .home-img {
   display: flex;
-  max-width: 1300px;
   border: solid 1px hsla(0, 0%, 100%, 0.137);
   border-radius: 15px;
   box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.377);
+}
+
+.home-pic-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.home-disclaimer {
+  margin-top: 35%
 }
 
 .pic-title {
@@ -273,8 +289,10 @@ input[type="date"]:disabled+span>label>span {
 
 .pic-txt {
   display: flex;
+  flex-direction: column;
   background-color: hsla(0, 0%, 35%, 0.781);
   justify-content: center;
+  align-items: center;
   max-width: fit-content;
   font-family: 'Cardo', sans-serif;
   font-size: 24px;
@@ -513,6 +531,12 @@ input[type="date"]:disabled+span>label>span {
 @media screen and (max-width: 992px) {
   .home-logo {
     height: 14vh;
+  }
+
+  .home-pic-content,
+  .pic-txt,
+  .home-disclaimer {
+    font-size: 15px;
   }
 
   .propertylist {
