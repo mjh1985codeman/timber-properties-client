@@ -142,3 +142,8 @@ mutation Mutation($resetEmailInput: ResetPWEmailInput) {
 //   }
 // }
 
+export const CHANGE_PW = gql`
+mutation Mutation($token: String!, $email: String!, $password: String!) {
+  updateUserPassword(token: $token, email: $email, password: $password)
+}
+`

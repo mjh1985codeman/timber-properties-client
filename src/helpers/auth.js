@@ -36,6 +36,18 @@ class AuthService {
     }
   }
 
+  getEmailFromToken(token) {
+    try {
+      const decoded = decode(token);
+      const hasEmail = decoded.data.email || undefined;
+      if (decoded.exp > Date.now() / 1000 && hasEmail) {
+        return decoded.data.email;
+      }
+    } catch (err) {
+      return "Invalid Token. . ." + err;
+    }
+  }
+
   getToken() {
     // Retrieves the user token from localStorage
     return localStorage.getItem('id_token');
