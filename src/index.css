@@ -262,6 +262,8 @@ input[type="date"]:disabled+span>label>span {
   border: solid 1px hsla(0, 0%, 100%, 0.137);
   border-radius: 15px;
   box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.377);
+  height: 500px;
+  max-width: 400px;
 }
 
 .home-pic-content {
@@ -272,7 +274,7 @@ input[type="date"]:disabled+span>label>span {
 }
 
 .home-disclaimer {
-  margin-top: 35%
+  margin-top: 10%
 }
 
 .pic-title {
@@ -285,6 +287,7 @@ input[type="date"]:disabled+span>label>span {
   color: var(--text-color);
   border: hsla(210, 3%, 15%, 0.74) solid 1px;
   border-radius: 15px;
+  margin-top: 15px;
 }
 
 .pic-txt {
