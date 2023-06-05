@@ -6,6 +6,7 @@ import { useNavigate} from "react-router-dom";
 import Loading from '../components/Loading.js';
 import Auth from '../helpers/auth.js';
 import Format from '../helpers/formatter.js';
+import CoverPic from '../components/CoverPic.js';
 const {GET_PROPERTIES} = require('../controllers/queries.js');
 
 
@@ -25,6 +26,7 @@ export default function Properties(props) {
         <div className='propertylist'>
         {propArray.map(property => (property.available ? (
         <div key={property._id} className='propertyCard'>
+        <CoverPic propIdForCover={property._id}/>
         <a className='proplink' href={`/properties/${property._id}`}>
         <h2>{property.name}</h2>
         </a> 

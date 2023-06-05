@@ -9,7 +9,7 @@ import Auth from '../helpers/auth';
 import Loading from '../components/Loading';
 import validator from '../helpers/validators';
 import Modal from '../components/Modal';
-const { GET_S3_BUCKET_URL } = require('../controllers/queries');
+const { GET_S3_BUCKET_URL, GET_S3_COVER_URL } = require('../controllers/queries');
 
 
 export default function Property() {
@@ -24,6 +24,8 @@ export default function Property() {
   const [reserveCost, setReserveCost] = useState("");
   const [reserveReady, setReserveReady] = useState(false);
   const [available, setAvailable] = useState(false);
+  const [coverImage, setCoverImage] = useState({cImg: ""});
+  const [coverImageName, setCoverImageName] = useState("");
   const [propImages, setPropImages] = useState([]);
   const [imageNames, setImageNames] = useState([]);
   const base64 = require('../helpers/base64');
@@ -31,7 +33,11 @@ export default function Property() {
   //mutation. 
   const [addProperty, {loading, error, data}] = useMutation(ADD_PROPERTY);
   let propId;
-  const {s3Loading, s3Error, s3Data, refetch} = useQuery(GET_S3_BUCKET_URL, {
+  const {s3Loading, s3Error, s3Data, refetch: refetchS3Url} = useQuery(GET_S3_BUCKET_URL, {
+    variables: {propId}
+  });
+
+  const {coverLoading, coverError, coverData, refetch: refetchCoverURL} = useQuery(GET_S3_COVER_URL, {
     variables: {propId}
   });
 
@@ -73,9 +79,11 @@ export default function Property() {
     };
   }
 
-  function sendPicsToS3(url, picArray, newId) {
+  function sendPicsToS3(url, picArray, newId, coverPic, coverUrl) {
     const jsonPicArrayObj = { images: picArray};
     const jsonPicArrayStr = JSON.stringify({jsonPicArrayObj});
+    const coverObj = {cover: coverPic};
+    const coverString = JSON.stringify(coverObj);
 
     // Send a PUT request to the presigned URL with the FormData object as the body
     fetch((url), {
@@ -84,7 +92,14 @@ export default function Property() {
     })
     .then((response) => {
       if (response.ok) {
-        navigate(`/properties/${newId}`);
+        fetch((coverUrl), {
+          method: 'PUT',
+          body: coverString,
+        }).then((coverResponse) => {
+          if(coverResponse.ok) {
+            navigate(`/properties/${newId}`);
+          };
+        });
       } else {
         console.error('Upload failed with status', response);
         return response;
@@ -106,6 +121,17 @@ export default function Property() {
     setPropImages(b64Images => [...b64Images, convertedImage]);
     //Use this syntax to force the component to re-render immediately as it detects a change. 
     setImageNames(imageNames => [...imageNames, imageName]);
+};
+
+  async function handleCoverUpload (e){
+    e.preventDefault();
+    const image = e.target.files[0];
+    const imageName = image.name;
+    const convertedImage = await base64.convertToBase64(image);
+    console.log('convertedImage: ' , convertedImage);
+    console.log('imageName: ' , imageName);
+    setCoverImageName(imageName);
+    setCoverImage({cImg: convertedImage});
 };
   function generatePropObj() {
     let obj; 
@@ -159,12 +185,14 @@ export default function Property() {
           }).then( async newPropData => {
               const newPropId = newPropData.data.addProperty._id;
               //here we can use the id of the newly added property and use that for the s3 stuff. 
-              const s3BucketURL = await refetch({propId: newPropId});
-              if(s3BucketURL) {
+              const s3BucketURL = await refetchS3Url({propId: newPropId});
+              const s3CoverURL = await refetchCoverURL({propId: newPropId});
+              if(s3BucketURL && s3CoverURL) {
                 const s3PresignedURL = s3BucketURL.data.getS3URL;
+                const s3PresignedCoverURL = s3CoverURL.data.getCoverS3URL;
                 //call the function that sends a request to the s3 bucket with the prop pictures using the
                 //presigned URL.
-                sendPicsToS3(s3PresignedURL, propPicArray, newPropId);
+                sendPicsToS3(s3PresignedURL, propPicArray, newPropId, coverImage, s3PresignedCoverURL);
               } else {
                 console.log('this is the data: ' , data);
                 return `There was an error getting the s3 Bucket URL. ${s3Loading} // ${s3Data} // ${s3Error}`
@@ -286,6 +314,21 @@ export default function Property() {
            <label>NO</label>
            </div>
          </Form.Label>
+         <label className="upload-label-style" htmlFor="cover-upload">
+           <h4 className="uploadprop-txt">Cover Picture</h4>  
+         <input
+           className='hide' 
+           type="file"
+           label="Image"
+           name="coverPic"
+           id='cover-upload'
+           accept='.jpeg, .png, .jpg'
+           onChange={(e) => handleCoverUpload(e)}
+           />
+         </label>
+         <div>
+             <h5 key={coverImageName}>{coverImageName}</h5>
+         </div>  
          <label className="upload-label-style" htmlFor="pic-upload">
            <h4 className="uploadprop-txt">Upload Property Images</h4>  
          <input
