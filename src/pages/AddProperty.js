@@ -71,7 +71,6 @@ export default function Property() {
 
   function handleRadioInputChange(e) {
     const {name, value} = e.target;
-    console.log(value);
     if (name === 'reserveReady') {
         return setReserveReady(value)
     } else if (name === 'available') {
@@ -128,8 +127,6 @@ export default function Property() {
     const image = e.target.files[0];
     const imageName = image.name;
     const convertedImage = await base64.convertToBase64(image);
-    console.log('convertedImage: ' , convertedImage);
-    console.log('imageName: ' , imageName);
     setCoverImageName(imageName);
     setCoverImage({cImg: convertedImage});
 };
@@ -187,6 +184,13 @@ export default function Property() {
               //here we can use the id of the newly added property and use that for the s3 stuff. 
               const s3BucketURL = await refetchS3Url({propId: newPropId});
               const s3CoverURL = await refetchCoverURL({propId: newPropId});
+              if(coverLoading) {
+                console.log(coverLoading);
+              } if (coverError) {
+                console.log(coverError);
+              } if(coverData) {
+                console.log(coverData);
+              }
               if(s3BucketURL && s3CoverURL) {
                 const s3PresignedURL = s3BucketURL.data.getS3URL;
                 const s3PresignedCoverURL = s3CoverURL.data.getCoverS3URL;
