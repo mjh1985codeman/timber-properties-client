@@ -25,7 +25,7 @@ const Home = () => {
       <Card.Img className="home-img" src={homPic} alt="A beautiful cabin in the snowy woods on a lake." />
         <Card.Title><h2 className='pic-title'>We have the Properties that are perfect for your next get away.</h2></Card.Title>
         {Auth.loggedIn() ? (
-        null
+          <div className="big-disclaimer home-disclaimer" onClick={() => {navigate('/properties')}}>View Properties</div> 
         ) : (
           <div className="big-disclaimer home-disclaimer" onClick={() => {navigate('/login')}}>Login to book your reservation today!</div> 
         )}
