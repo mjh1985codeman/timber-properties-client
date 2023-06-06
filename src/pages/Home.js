@@ -25,7 +25,9 @@ const Home = () => {
       <Card.Img className="home-img" src={homPic} alt="A beautiful cabin in the snowy woods on a lake." />
         <Card.Title><h2 className='pic-title'>We have the Properties that are perfect for your next get away.</h2></Card.Title>
         {Auth.loggedIn() ? (
-          <button type="click" className="big-disclaimer home-disclaimer" onClick={() => {navigate('/properties')}}>View Properties</button> 
+                  <a className='proplink' href={`/properties`}>
+                  <h2>View Properties</h2>
+                  </a>  
         ) : (
           <div className="big-disclaimer home-disclaimer" onClick={() => {navigate('/login')}}>Login to book your reservation today!</div> 
         )}
