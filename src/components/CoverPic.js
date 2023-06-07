@@ -14,7 +14,6 @@ export default function CoverPic({propIdForCover}) {
                 setHasCover(false);
             };
             result.json().then(jsonData => {
-                console.log('result json: ' , jsonData);
                 setCoverPic(jsonData.cover.cImg);
             })
             .catch(error => {

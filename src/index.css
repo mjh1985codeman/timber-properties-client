@@ -67,6 +67,11 @@ input[type="date"]:disabled+span>label>span {
   display: none;
 }
 
+.title-text {
+  color: var(--text-color);
+  font-family: 'Cardo', sans-serif;
+}
+
 /* Disclaimer Stylings*/
 .big-disclaimer {
   max-width: 500px;
@@ -449,6 +454,13 @@ input[type="date"]:disabled+span>label>span {
 
 .calinput:hover {
   border: hsla(40, 97%, 64%, 0.863) solid 2px;
+}
+
+/* 
+User Reservations Stylings */
+.user-list-res {
+  display: flex;
+  flex-direction: row;
 }
 
 /* Properties Component Styling  */

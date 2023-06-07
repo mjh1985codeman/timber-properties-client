@@ -23,6 +23,7 @@ import ReservationConfirm from "./components/ReservationConfirm";
 import ThankYou from "./pages/ThankYou";
 import ResetPWRequestComp from "./components/ResetPWRequestComp";
 import ResetPWConfirm from "./components/ResetPWConfirm";
+import UserReservations from "./pages/UserReservations";
 
 //nav icons
 import {HiLogin} from 'react-icons/hi'
@@ -31,17 +32,18 @@ import {SiMaildotru} from 'react-icons/si'
 import {BiBuildingHouse} from 'react-icons/bi'
 import {RiTeamLine} from 'react-icons/ri'
 import {GiExitDoor} from 'react-icons/gi'
+import { GiMountains } from "react-icons/gi";
 
 
 //Production: 
-const httpLink = createHttpLink({
-  uri: 'https://gql-api-timber-properties.onrender.com/graphql',
-});
+// const httpLink = createHttpLink({
+//   uri: 'https://gql-api-timber-properties.onrender.com/graphql',
+// });
 
 //Local Development:
-// const httpLink = createHttpLink({
-//   uri: 'http://localhost:3001/graphql',
-// });
+const httpLink = createHttpLink({
+  uri: 'http://localhost:3001/graphql',
+});
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
@@ -69,9 +71,14 @@ function App() {
         {Auth.isAdmin() ? (
           <NavItem to="/team" text="Team" icon={<RiTeamLine/>}></NavItem>
           ) : (null)}
+        {Auth.loggedIn() ? (
+          <NavItem to="/your-reservations" text="Your Reservations" icon={<GiMountains/>}></NavItem>
+        ) : (null)}
         {!Auth.loggedIn() ? (
-          <NavItem to="/login" text="Login" icon={<HiLogin/>}></NavItem>
-          ) : (<NavItem to="/logout"text="Logout" icon={<GiExitDoor/>}></NavItem>)}
+            <NavItem to="/login" text="Login" icon={<HiLogin/>}></NavItem>  
+          ) : (
+            <NavItem to="/logout"text="Logout" icon={<GiExitDoor/>}></NavItem>
+          )}
         </div>
       <Routes>
         <Route exact path="/" element={<Home/>} />
@@ -81,13 +88,26 @@ function App() {
         <Route path="/contact"element={<Contact/>} />
         <Route path="/properties"element={<Properties/>} />
         <Route path="/register" element={<Register/>}/>
-        <Route path="/properties/addproperty" element={<AddProperty/>} />
+        {Auth.loggedIn() ? (
+          <>
+            <Route path="/your-reservations" element={<UserReservations/>}/>
+            <Route path="/reserve/:propertyId" element={<ReserveProperty/>}/>
+            <Route path="/properties/addproperty" element={<AddProperty/>} />
+            <Route path="/reserve/:propertyId/confirm" element={<ReservationConfirm/>}/>
+          </>
+        ) : (        
+        <Route
+          render={() => (
+            <h1 className="display-2">
+              You Must Be Logged In To See This Page.
+            </h1>
+          )}
+        />)}
         <Route path="/properties/:propertyId" element={<PropertyDetails/>}/>
-        <Route path="/reserve/:propertyId" element={<ReserveProperty/>}/>
-        <Route path="/reserve/:propertyId/confirm" element={<ReservationConfirm/>}/>
         <Route path="/requestpwreset" element={<ResetPWRequestComp/>}/>
         <Route path="/reset/:token" element={<ResetPWConfirm/>} />
         <Route path="/thankyou" element={<ThankYou/>}/>
+     
         <Route
           render={() => (
             <h1 className="display-2">

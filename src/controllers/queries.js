@@ -153,3 +153,40 @@ query Query($id: ID!) {
   }
 }
 `
+
+export const GET_USER_RESERVATIONS = gql`
+query Query($email: String!) {
+  getUserReservations(email: $email) {
+    email
+    firstName
+    lastName
+    phone
+    role
+    reservations {
+      _id
+      balance
+      beginDate
+      cancelled
+      dateCancelled
+      downPaymentAmountRequired
+      downPaymentPaid
+      endDate
+      paidInFull
+      paymentAmountCollected
+      totalPrice
+      property {
+        _id
+        addressSt
+        available
+        city
+        name
+        readyToReserve
+        reserveCost
+        reserved
+        state
+        zip
+      }
+    }
+  }
+}
+`
