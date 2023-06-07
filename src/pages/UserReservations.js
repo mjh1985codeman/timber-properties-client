@@ -17,6 +17,7 @@ function GetUserReservations(email) {
             email: email
         }
     });
+
     if(resData.data) {
         const resArray = resData.data.getUserReservations.reservations || [];
         console.log('resArray: ' , resArray);
@@ -36,7 +37,10 @@ function GetUserReservations(email) {
         <h5>{res.property.city}, {res.property.state} {res.property.zip}</h5>
         </div>  
         **********************************
-        <h3>Balance Due: {res.balance}</h3>  
+        <h3>Balance Due Upon Check In: {Format.showUSDollar(res.balance)}</h3>  
+        **********************************
+        <h3>Check In Date: {new Date(parseInt(res.beginDate)).toLocaleDateString()}</h3>
+        <h3>Check Out Date: {new Date(parseInt(res.endDate)).toLocaleDateString()}</h3>
         </div>
         </div>
         )}

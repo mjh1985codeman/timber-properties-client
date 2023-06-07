@@ -80,8 +80,8 @@ export default function ReservationConfirm() {
             endDate: resDetails.endDate,
             downPamentPaid: false,
             totalPrice: resDetails.totalPrice,
-            balance: resDetails.totalPrice,
-            paidInFull: false,
+            // balance: resDetails.totalPrice,
+            // paidInFull: false,
             property: resDetails.property._id,
             customer: resDetails.customer._id,
         };
