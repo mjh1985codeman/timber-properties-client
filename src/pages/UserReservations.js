@@ -20,14 +20,16 @@ function GetUserReservations(email) {
 
     if(resData.data) {
         const resArray = resData.data.getUserReservations.reservations || [];
-        console.log('resArray: ' , resArray);
         if(resArray.length > 0) {
         return<>
         <h1 className='title-text'>{loggedInUser.data.firstName}'s Reservations:</h1>
         <div className='propertylist'>    
         {resArray.map(res =>
         <div className='user-list-res'> 
-        <div key={res._id} className='propertyCard'>
+        <div key={res._id} className={res.endDate > Date.now() ? ('propertyCard'    
+        ) : (`propertyCard past-res`)}>
+        <h3>Check In Date: {new Date(parseInt(res.beginDate)).toLocaleDateString()}</h3>
+        <h3>Check Out Date: {new Date(parseInt(res.endDate)).toLocaleDateString()}</h3>
         <div className="user-res-list-div">
         <CoverPic propIdForCover={res.property._id}/>
         <a className='proplink' href={`/properties/${res.property._id}`}>
@@ -39,8 +41,6 @@ function GetUserReservations(email) {
         **********************************
         <h3>Balance Due Upon Check In: {Format.showUSDollar(res.balance)}</h3>  
         **********************************
-        <h3>Check In Date: {new Date(parseInt(res.beginDate)).toLocaleDateString()}</h3>
-        <h3>Check Out Date: {new Date(parseInt(res.endDate)).toLocaleDateString()}</h3>
         </div>
         </div>
         )}
@@ -53,17 +53,17 @@ function GetUserReservations(email) {
                 Looks like you don't have any Reservations yet...That's a little sad don't you think? 
                 </h1>
                 <a className='proplink' href={`/properties`}>
-                  <h2>View Properties</h2>
+                    <h2>View Properties</h2>
                 </a>  
             </div>
             </>
         }
     } else if(resData.loading) {
-      return <div><Loading/></div>
+        return <div><Loading/></div>
     } else if (resData.error) {
-      return `There was an error loading the Data: ${resData.error}`
+        return `There was an error loading the Data: ${resData.error}`
     };
-  };
+};
 
     return (
     <Container>

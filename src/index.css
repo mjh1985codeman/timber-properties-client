@@ -463,6 +463,10 @@ User Reservations Stylings */
   flex-direction: row;
 }
 
+.past-res {
+  opacity: 0.5;
+}
+
 /* Properties Component Styling  */
 .propertylist {
   display: grid;
