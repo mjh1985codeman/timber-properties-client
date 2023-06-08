@@ -23,24 +23,28 @@ function GetUserReservations(email) {
         if(resArray.length > 0) {
         return<>
         <h1 className='title-text'>{loggedInUser.data.firstName}'s Reservations:</h1>
-        <div className='propertylist'>    
+        <div className='user-res-list'>    
         {resArray.map(res =>
         <div className='user-list-res'> 
-        <div key={res._id} className={res.endDate > Date.now() ? ('propertyCard'    
-        ) : (`propertyCard past-res`)}>
-        <h3>Check In Date: {new Date(parseInt(res.beginDate)).toLocaleDateString()}</h3>
-        <h3>Check Out Date: {new Date(parseInt(res.endDate)).toLocaleDateString()}</h3>
-        <div className="user-res-list-div">
+        <div key={res._id} className={res.endDate > Date.now() ? ('resCard'    
+        ) : (`resCard past-res`)}>
+        <div className='user-res-grid-item'> 
+        <div className='user-res-grid-content-div'>
+        <h4>Check In Date: {new Date(parseInt(res.beginDate)).toLocaleDateString()}</h4>
+        <h4>Check Out Date: {new Date(parseInt(res.endDate)).toLocaleDateString()}</h4>
+        {res.balance > 0 ? (<h4>Balance Due Upon Check In: {Format.showUSDollar(res.balance)}</h4>) : (<h4>Paid In Full!</h4>)}   
+        </div>
+        </div>    
+        <div className="user-res-grid-item">
         <CoverPic propIdForCover={res.property._id}/>
+        <div className='user-res-grid-content-div'>
         <a className='proplink' href={`/properties/${res.property._id}`}>
         <h2>{res.property.name}</h2>
         </a> 
         <h5>{res.property.addressSt}</h5> 
         <h5>{res.property.city}, {res.property.state} {res.property.zip}</h5>
+        </div>
         </div>  
-        **********************************
-        <h3>Balance Due Upon Check In: {Format.showUSDollar(res.balance)}</h3>  
-        **********************************
         </div>
         </div>
         )}

@@ -458,13 +458,51 @@ input[type="date"]:disabled+span>label>span {
 
 /* 
 User Reservations Stylings */
-.user-list-res {
+
+.user-res-list {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  padding: 10px;
+  background-color: hsla(210, 10%, 73%, 0.418);
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Cardo', sans-serif;
+  font-size: 20px;
+  color: var(--text-color);
+  border-radius: 15px;
+  box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.377);
+}
+
+.resCard {
+  display: grid;
+  column-gap: 50px;
+  grid-template-columns: auto auto auto;
+  border: solid hsla(0, 0%, 15%, 0.349) 0.2vh;
+  background-color: hsla(212, 82%, 15%, 0.425);
+  box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.562);
+  border-radius: 15px;
+  margin: 1vw;
+  padding: 10px;
+  align-items: center;
+  justify-items: center;
+  max-width: 1000px;
+}
+
+.resCard h2 {
+  color: hsla(40, 97%, 64%, 0.863);
+}
+
+.user-res-grid-content-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .past-res {
-  opacity: 0.5;
+  opacity: 0.6;
+  background-color: hsla(212, 82%, 15%, 0.253);
 }
 
 /* Properties Component Styling  */
@@ -547,7 +585,7 @@ User Reservations Stylings */
 }
 
 /* Media Query Stylings for Properties page.  */
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 1200px) {
   .home-logo {
     height: 14vh;
   }
@@ -570,6 +608,20 @@ User Reservations Stylings */
     color: var(--text-color);
     border-radius: 15px;
     box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.377);
+  }
+
+  .resCard {
+    display: flex;
+    border: solid hsla(0, 0%, 15%, 0.349) 0.2vh;
+    background-color: hsla(212, 82%, 15%, 0.425);
+    box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.562);
+    border-radius: 15px;
+    margin: 1vw;
+    padding: 10px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1000px;
   }
 }
 
