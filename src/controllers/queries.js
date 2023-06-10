@@ -190,3 +190,9 @@ query Query($email: String!) {
   }
 }
 `
+
+export const GET_STRIPE_CLIENT_SECRET = gql`
+query Query($resDetails: ReservationDownPayPaymentIntent) {
+  getClientSecret(resDetails: $resDetails)
+}
+`

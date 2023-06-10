@@ -1,5 +1,6 @@
 import React from 'react'
 import { Container } from 'react-bootstrap';
+import CheckoutDownPayment from '../components/CheckoutDownPayment';
 
 export default function ThankYou() {
   return (
@@ -8,6 +9,7 @@ export default function ThankYou() {
         <h1>ThankYou For your Reservation Request!</h1>
         <div className='big-disclaimer'>If you are a property owner and think a site like this could help your buisness please reach out to me so I can build you one like it!!!</div>
     </div>
+    <CheckoutDownPayment/>
     </Container>
   )
 }

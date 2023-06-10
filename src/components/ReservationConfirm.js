@@ -27,7 +27,7 @@ export default function ReservationConfirm() {
         setShowErrorModal(false);
         setShowSuccessModal(false);
         //Will navigate to the property 'thank you' componenet later.  
-        navigate('/thankyou');
+        navigate('/thankyou', {state: {resDPCheckout: resDetails}});
     };
 
     function handleChange(e) {
