@@ -27,14 +27,12 @@ export default function CheckoutDownPayment() {
   useEffect(() => {
     if (resDetailsForDp.totalPrice) {
       setDownPaymentAmount(resDetailsForDp.totalPrice);
-      console.log('downPaymentAmount: ', downPaymentAmount);
     }
 
     if (data) {
-        console.log('is this data here? ' , data);
+     
       const stripeSecret = data.getClientSecret;
       setClientSecret(stripeSecret);
-      console.log('secret: ', stripeSecret);
     }
 
     // ...
@@ -43,6 +41,7 @@ export default function CheckoutDownPayment() {
   const appearance = {
     theme: 'stripe',
   };
+  
   const options = {
     clientSecret,
     appearance,
@@ -51,8 +50,8 @@ export default function CheckoutDownPayment() {
   return (
     <div>
       {clientSecret && (
-        <Elements options={options} stripe={stripePromise}>
-          <CheckoutFormForDp stripeClientSecret={clientSecret}/>
+        <Elements stripe={stripePromise} options={options}>
+          <CheckoutFormForDp />
         </Elements>
       )}
     </div>
