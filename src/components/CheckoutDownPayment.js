@@ -34,8 +34,6 @@ export default function CheckoutDownPayment() {
       const stripeSecret = data.getClientSecret;
       setClientSecret(stripeSecret);
     }
-
-    // ...
   }, [resDetailsForDp, downPaymentAmount, data]);
 
   const appearance = {
@@ -43,6 +41,7 @@ export default function CheckoutDownPayment() {
   };
   
   const options = {
+    layout: 'accordian',
     clientSecret,
     appearance,
   };
@@ -51,7 +50,7 @@ export default function CheckoutDownPayment() {
     <div>
       {clientSecret && (
         <Elements stripe={stripePromise} options={options}>
-          <CheckoutFormForDp />
+          <CheckoutFormForDp resInfo={resDetailsForDp}/>
         </Elements>
       )}
     </div>

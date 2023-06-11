@@ -20,7 +20,7 @@ import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Team from "./pages/Team";
 import ReservationConfirm from "./components/ReservationConfirm";
-import ThankYou from "./pages/ThankYou";
+import DownPayment from "./pages/DownPayment";
 import ResetPWRequestComp from "./components/ResetPWRequestComp";
 import ResetPWConfirm from "./components/ResetPWConfirm";
 import UserReservations from "./pages/UserReservations";
@@ -106,7 +106,7 @@ function App() {
         <Route path="/properties/:propertyId" element={<PropertyDetails/>}/>
         <Route path="/requestpwreset" element={<ResetPWRequestComp/>}/>
         <Route path="/reset/:token" element={<ResetPWConfirm/>} />
-        <Route path="/thankyou" element={<ThankYou/>}/>
+        <Route path="/downpayment" element={<DownPayment/>}/>
      
         <Route
           render={() => (
