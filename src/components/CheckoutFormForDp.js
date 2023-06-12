@@ -90,9 +90,10 @@ const CheckoutFormForDp = ({resInfo}) => {
             customer: reservation.customer._id
         }
        });
-       if(data) {   
-         sendConfirmation();
-         navigate('/your-reservations');
+       sendConfirmation();
+       navigate('/your-reservations');
+       if(data) {
+          console.log('data: ' , data);   
        } if(loading) {
         return <Loading/>
        } if(error) {
