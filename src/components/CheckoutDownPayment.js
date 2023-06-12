@@ -40,7 +40,7 @@ export default function CheckoutDownPayment() {
   };
 
   if(error) {
-    return error
+    console.log('there was an error: ' , error);
   };
 
   const appearance = {
