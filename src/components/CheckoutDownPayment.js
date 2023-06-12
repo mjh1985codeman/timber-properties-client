@@ -30,11 +30,18 @@ export default function CheckoutDownPayment() {
     }
 
     if (data) {
-     
       const stripeSecret = data.getClientSecret;
       setClientSecret(stripeSecret);
     }
   }, [resDetailsForDp, downPaymentAmount, data]);
+
+  if(loading) {
+    return '...loading'
+  };
+
+  if(error) {
+    return error
+  };
 
   const appearance = {
     theme: 'stripe',
