@@ -9,6 +9,16 @@ You can checkout out the BackEnd (Server) Side Code [here](https://github.com/mj
 
 ## Tech Used
 
+![react-logo](./src/assets/react-logo.png)
+- React JS
+    - What is this?
+    - - A very popular Javascript framework developed by FaceBook it's a front end technology that is used to build scalable and fast web applictions.  You can check out the docs [here](https://react.dev/)
+
+![aws-logo](./src/assets/icons8-amazon-web-services-96.png)
+- Amazon Web Services (S3)
+    - What is this?
+    - - I used the S3 Bucket service from AWS to store and retrieve base64 encrypted json strings which houses the image data for the property pictures.  This was a great tool that I learned to utilize for the first time by searching through the docs which you can find [here](https://aws.amazon.com/s3/).  
+
 ![logo](./src/assets/icons8-json-web-token-48.png)
 - JSON WebToken.
    - What is this? 
@@ -34,14 +44,26 @@ You can checkout out the BackEnd (Server) Side Code [here](https://github.com/mj
     - What is this?
     - - MongoDB Atlas is a great tool that essentially hosts our data in the cloud.  I've used it for many projects and I find it very easy to work with; check out the docs [here](https://www.mongodb.com/docs/atlas/getting-started/).
 
+![apollo-logo](./src/assets/icons8-apollo-48.png)
+- Apollo Client and Apollo Server
+    - What is this?
+    - - Apollo Client and Apollo Server is a developer platform that is used in conjunction with a GraphQL API to build schema's which serves as a middleware between the server and the MongoDB.  It's a great tool that I've used on a few different projects.  You can checkout the docs [here](https://www.apollographql.com/docs/) and for the react Apollo Client information you can see that [here](https://www.apollographql.com/docs/react)
+
 ![courier-logo](./src//assets/courier_logo.png)
 - Courier
     - What is this?
     - - Courier is a great service that I discovered when looking for way to implement email notifications.  You can checkout their docs [here](https://www.courier.com/docs/)
 
+![stripe-logo](./src/assets/stripe-logo.png)
+- Stripe
+    - What is this?
+    - - Stripe at its core is a Payment Processor.  In this application I setup a demo account and implemented a custom built payment flow that is utilized for customers to secure their reservation by paying a 'down payment' for the reservation.  One the payment is successfully processed the reservation is then created and stored in the DB.  Stripe is the Payment Technology that handles the payment processing in a secure way.  You can reveiw their docs [here](https://stripe.com/docs/payments)
+
 
 ## Deployed
 Click [Here](https://timber-properties.netlify.app/) to see it. 
+
+![deployed-ss](./src/assets/deployedSS.png)
 
 ## ReadMe Icon Cred
 Tech Icons Courtesy of <a target="_blank" href="https://icons8.com">Icons8</a>
