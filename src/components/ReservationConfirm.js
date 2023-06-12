@@ -13,11 +13,8 @@ export default function ReservationConfirm() {
     const [resCustomerEmail, setResCustomerEmail] = useState(resDetails.customer.email || "");
     const [resCustomerPhone, setResCustomerPhone] = useState("");
     const [showErrorModal, setShowErrorModal] = useState(false);
-    //const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const navigate = useNavigate();
-
-    //const [sendEmailConfirmation, {data}] = useMutation(SEND_EMAIL_CONFIRMATION);
 
     function handleCloseModal() {
         setShowErrorModal(false);

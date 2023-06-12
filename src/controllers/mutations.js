@@ -64,20 +64,45 @@ mutation Mutation($email: String!, $password: String!) {
 //   "customer": "645e9ffb15a54cd3084e822d"
 // }
 
+// {
+//   "beginDate": "2023-05-20",
+//   "endDate": "2023-05-25",
+//   "totalPrice": 50000.00,
+//   "paymentAmountCollected": 25000.00,
+//   "property": null,
+//   "customer": null,
+// }
+
 export const ADD_RESERVATION = gql`
-mutation Mutation($beginDate: String, $endDate: String, $downPaymentPaid: Boolean, $totalPrice: Float, $balance: Float, $paidInFull: Boolean, $property: ID, $customer: ID) {
-  addReservation(beginDate: $beginDate, endDate: $endDate, downPaymentPaid: $downPaymentPaid, totalPrice: $totalPrice, balance: $balance, paidInFull: $paidInFull, property: $property, customer: $customer) {
+mutation Mutation($beginDate: String, $endDate: String, $totalPrice: Float, $downPaymentAmountRequired: Float, $paymentAmountCollected: Float, $downPaymentPaid: Boolean, $balance: Float, $paidInFull: Boolean, $property: ID, $customer: ID, $cancelled: Boolean, $dateCancelled: String) {
+  addReservation(beginDate: $beginDate, endDate: $endDate, totalPrice: $totalPrice, downPaymentAmountRequired: $downPaymentAmountRequired, paymentAmountCollected: $paymentAmountCollected, downPaymentPaid: $downPaymentPaid, balance: $balance, paidInFull: $paidInFull, property: $property, customer: $customer, cancelled: $cancelled, dateCancelled: $dateCancelled) {
     _id
     balance
     beginDate
+    cancelled
     customer {
+      email
+      firstName
+      lastName
+      phone
+      role
       _id
     }
+    dateCancelled
+    downPaymentAmountRequired
     downPaymentPaid
     endDate
     paidInFull
+    paymentAmountCollected
     property {
       _id
+      addressSt
+      available
+      city
+      name
+      readyToReserve
+      state
+      zip
     }
     totalPrice
   }

@@ -25,8 +25,8 @@ function GetUserReservations(email) {
         <h1 className='title-text'>{loggedInUser.data.firstName}'s Reservations:</h1>
         <div className='user-res-list'>    
         {resArray.map(res =>
-        <div className='user-list-res'> 
-        <div key={res._id} className={res.endDate > Date.now() ? ('resCard'    
+        <div className='user-list-res' key={res.beginDate} > 
+        <div className={res.endDate > Date.now() ? ('resCard'    
         ) : (`resCard past-res`)}>
         <div className='user-res-grid-item'> 
         <div className='user-res-grid-content-div'>

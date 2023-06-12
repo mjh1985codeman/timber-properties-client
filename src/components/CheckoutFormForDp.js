@@ -1,8 +1,9 @@
 import {useMutation} from "@apollo/client";
 import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
 import Format from '../helpers/formatter.js';
-import { SEND_EMAIL_CONFIRMATION } from '../controllers/mutations';
+import { ADD_RESERVATION, SEND_EMAIL_CONFIRMATION } from '../controllers/mutations';
 import {useNavigate} from "react-router-dom";
+import Loading from "../components/Loading.js";
 
 const CheckoutFormForDp = ({resInfo}) => {
   const stripe = useStripe();
@@ -10,7 +11,8 @@ const CheckoutFormForDp = ({resInfo}) => {
 
   const navigate = useNavigate();
 
-  const [sendEmailConfirmation, {data}] = useMutation(SEND_EMAIL_CONFIRMATION);
+  const [sendEmailConfirmation, {emailData}] = useMutation(SEND_EMAIL_CONFIRMATION);
+  const [addReservation, {loading, error, data}] = useMutation(ADD_RESERVATION);
 
   const reservation = resInfo;
   const property = resInfo.property;
@@ -41,8 +43,7 @@ const CheckoutFormForDp = ({resInfo}) => {
             emailInput: emailInput
         }
     });
-    console.log('email Input: ' , emailInput);
-    console.log('is this the data, ' , data);
+    console.log('is this the emailData, ' , emailData);
 };
 
   const handleSubmit = async (event) => {
@@ -75,12 +76,28 @@ const CheckoutFormForDp = ({resInfo}) => {
     if (result.error) {
       // Show error to your customer (for example, payment details incomplete)
       console.log(result.error.message);
-    } else {
+    } else if (result.paymentIntent.status === "succeeded") {
        console.log('this is the result of the payment? ' , result);
        //save the reservation to the DB HERE. 
        //send email confirmation that the reservation has been saved and card processed.
-       sendConfirmation();
-       navigate('/your-reservations');
+        await addReservation({
+        variables: {
+            beginDate: reservation.beginDate,
+            endDate: reservation.endDate,
+            totalPrice: parseFloat(reservation.totalPrice.replace(/[$,]/g,"")),
+            paymentAmountCollected: parseFloat(reservation.totalPrice.replace(/[$,]/g,""))*.50,
+            property: reservation.property._id,
+            customer: reservation.customer._id
+        }
+       });
+       if(data) {   
+         sendConfirmation();
+         navigate('/your-reservations');
+       } if(loading) {
+        return <Loading/>
+       } if(error) {
+        return error; 
+       }
       // Your customer will be redirected to your `return_url`. For some payment
       // methods like iDEAL, your customer will be redirected to an intermediate
       // site first to authorize the payment, then redirected to the `return_url`.
@@ -121,8 +138,9 @@ const CheckoutFormForDp = ({resInfo}) => {
     </div>
     <div className="cof-div">
     <form onSubmit={handleSubmit} className='stripe-el'>
-      <div className = 'disclaimer'>By completing the form below you are authorizing the charge of {downPaymentAmount} in order to hold the reservation that is detailed above.  You are also acknowledging that this down payment is only refundable up to 30 days before the CHECK IN date listed above; after which any cancellation request must be submitted direclty with the property owner.  Lastly the remaining balance will be due upon Check In.</div>  
+      <div className = 'disclaimer'>By completing the payment form you are authorizing the charge for the amount listed below in order to hold the reservation that is detailed above.  You are also acknowledging that this down payment is only refundable up to 30 days before the CHECK IN date listed above; after which any cancellation request must be submitted direclty with the property owner.  Lastly the remaining balance will be due upon Check In.</div>  
       <div className="stripe-content">
+      <h3>Down Payment Amount: {downPaymentAmount} USD</h3>  
       <PaymentElement />
       <button disabled={!stripe}>Submit Payment</button>
       </div>

@@ -17,7 +17,6 @@ const [showIncompleteModal, setShowIncompleteModal] = useState(false);
 const [showResetRequestSubmitted, setShowResetRequestSubmitted] = useState(false);
 const [formClass, setFormClass] = useState("");
 const [formState, setFormState] = useState({ email: ''});
-// const [requestResetPWEmail, { error }] = useMutation(REQUEST_RESET_PW_EMAIL);
 const [getPWResetLink, { data }] = useMutation(GET_PW_RESET_LINK);
 
 function resetState() {
