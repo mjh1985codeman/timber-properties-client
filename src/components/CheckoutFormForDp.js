@@ -1,9 +1,13 @@
+import React, { useState } from 'react';
+import { Container } from 'react-bootstrap';
 import {useMutation} from "@apollo/client";
 import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
 import Format from '../helpers/formatter.js';
 import { ADD_RESERVATION, SEND_EMAIL_CONFIRMATION } from '../controllers/mutations';
 import {useNavigate} from "react-router-dom";
 import Loading from "../components/Loading.js";
+import Modal from "../components/Modal.js";
+
 
 const CheckoutFormForDp = ({resInfo}) => {
   const stripe = useStripe();
@@ -13,6 +17,25 @@ const CheckoutFormForDp = ({resInfo}) => {
 
   const [sendEmailConfirmation, {emailData}] = useMutation(SEND_EMAIL_CONFIRMATION);
   const [addReservation, {loading, error, data}] = useMutation(ADD_RESERVATION);
+  const [processingPayment, setProcessingPayment] = useState(false);
+  const [showDeclineModal, setShowDeclineModal] = useState(false);
+  const [declineMessage, setDeclineMessage] = useState("");
+  const [formClass, setFormClass] = useState("cof-div");
+
+  function resetState() {
+    setProcessingPayment(false);
+    setShowDeclineModal(false);
+    setFormClass("cof-div")
+  };
+
+  const handleCloseModal = () => {
+    resetState();
+};
+
+function callDeclineModal() {
+  setShowDeclineModal(true);
+  setFormClass('modal-open');
+}
 
   const reservation = resInfo;
   const property = resInfo.property;
@@ -71,10 +94,17 @@ const CheckoutFormForDp = ({resInfo}) => {
         },
       }
     });
+
+    if(result.paymentIntent?.processing) {
+      console.log('processing check was hit.')
+      setProcessingPayment(true);
+    }
     console.log('the result: ' , result);
 
     if (result.error) {
       // Show error to your customer (for example, payment details incomplete)
+      setDeclineMessage(`Your Payment was declined: ${result.error.decline_code}`);
+      callDeclineModal();
       console.log(result.error.message);
     } else if (result.paymentIntent.status === "succeeded") {
        console.log('this is the result of the payment? ' , result);
@@ -107,6 +137,8 @@ const CheckoutFormForDp = ({resInfo}) => {
 
   return (
     <>
+    <Container>
+
     <div className="res-dp-deets">
        <h2>Your Info</h2>
        <div>
@@ -137,16 +169,25 @@ const CheckoutFormForDp = ({resInfo}) => {
         <div>{downPaymentAmount}</div>
     </div>
     </div>
-    <div className="cof-div">
+      <div className="pay-modal">
+      {showDeclineModal ? (
+      <Modal handleClose={handleCloseModal} className='modalstyle overlay'>
+            <h1>Payment Error</h1>
+            <h4>{declineMessage}</h4>
+      </Modal>
+      ) : (null)}
+      </div>
+    <div className={formClass}>
     <form onSubmit={handleSubmit} className='stripe-el'>
       <div className = 'disclaimer'>By completing the payment form you are authorizing the charge for the amount listed below in order to hold the reservation that is detailed above.  You are also acknowledging that this down payment is only refundable up to 30 days before the CHECK IN date listed above; after which any cancellation request must be submitted direclty with the property owner.  Lastly the remaining balance will be due upon Check In.</div>  
       <div className="stripe-content">
       <h3>Down Payment Amount: {downPaymentAmount} USD</h3>  
       <PaymentElement />
-      <button disabled={!stripe}>Submit Payment</button>
+      <button disabled={!stripe}>{processingPayment ? <Loading/> : 'Submit Payment'}</button>
       </div>
     </form>
     </div>
+    </Container>
     </>
   )
 };

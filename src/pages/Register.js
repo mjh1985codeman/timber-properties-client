@@ -154,7 +154,7 @@ export default function Register() {
         </Form.Label>
         <Form.Label className='formlabel'>
           <h3>Email</h3>
-          <input className='calinput' type="text" name="userEmail" value={userEmail} onChange={handleInputChange}/>
+          <input className='calinput' type="email" name="userEmail" value={userEmail} onChange={handleInputChange}/>
         </Form.Label>
         <Form.Label className='formlabel'>
         <h3>Password</h3>

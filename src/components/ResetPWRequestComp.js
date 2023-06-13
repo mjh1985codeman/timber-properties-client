@@ -15,6 +15,7 @@ export default function ResetPWRequestComp() {
 //state things. 
 const [showIncompleteModal, setShowIncompleteModal] = useState(false);
 const [showResetRequestSubmitted, setShowResetRequestSubmitted] = useState(false);
+const [showResetError, setShowResetError] = useState(false);
 const [formClass, setFormClass] = useState("");
 const [formState, setFormState] = useState({ email: ''});
 const [getPWResetLink, { data }] = useMutation(GET_PW_RESET_LINK);
@@ -22,6 +23,7 @@ const [getPWResetLink, { data }] = useMutation(GET_PW_RESET_LINK);
 function resetState() {
   setShowIncompleteModal(false);
   setShowResetRequestSubmitted(false);
+  setShowResetError(false);
   setFormClass("");
 };
 
@@ -33,6 +35,11 @@ const callResetEmailSentModal = () => {
 const callIncompleteModal = () => {
     setFormClass('modal-open');
     setShowIncompleteModal(true);
+}
+;
+const callErrorModal = () => {
+    setFormClass('modal-open');
+    setShowResetError(true);
 };
 
 const handleCloseModal = () => {
@@ -53,6 +60,7 @@ const handleFormSubmit = async (event) => {
       }
     } catch(err) {
       console.log('error with login: ' , err);
+      callErrorModal();
     }
   } else {
     callIncompleteModal();
@@ -74,6 +82,12 @@ return (
   <Modal handleClose={handleCloseModal} className='modalstyle overlay'>
         <h1>All Fields are Required!</h1>
         <h4>Please Verify all fields and try again.</h4>
+  </Modal>
+  ) : (null)}
+  {showResetError ? (
+  <Modal handleClose={handleCloseModal} className='modalstyle overlay'>
+        <h1>Uh Oh!  Looks like there is an issue.</h1>
+        <h4>It's likely that a user does not exist with that email.</h4>
   </Modal>
   ) : (null)}
   {showResetRequestSubmitted ? (
