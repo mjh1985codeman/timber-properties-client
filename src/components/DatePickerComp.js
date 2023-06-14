@@ -39,6 +39,7 @@ export default function DatePickerComp({ unavailableDates, onDateSelect }) {
         excludeDates={disabledDates}
         minDate={new Date()}
         withPortal
+        disabledKeyboardNavigation
       />
     </>
   );
