@@ -19,7 +19,9 @@ const Home = () => {
     <img className ='home-logo' src={mainLogo} alt="a cabin in the snow."></img>
     </div>
     <div className="home-quote">  
-    <h2>"A place to kick your feet up."</h2>
+    <blockquote class="text-base md:text-md 3xl:text-lg">
+  Oh I gotta get on that internet, I'm late on everything!
+</blockquote>
     </div>     
       <div className='home-pic-content'>
       <Card.Img className="home-img" src={homPic} alt="A beautiful cabin in the snowy woods on a lake." />
@@ -29,7 +31,9 @@ const Home = () => {
                   <h2>View Properties</h2>
                   </a>  
         ) : (
-          <div className="big-disclaimer home-disclaimer" onClick={() => {navigate('/login')}}>Login to book your reservation today!</div> 
+          <>
+          <button className="animate-pulse big-disclaimer home-disclaimer transition ease-in-out delay-100 bg-yellow-500 hover:-translate-y-1 hover:scale-110 hover:bg-yellow-500 duration-200 hover:skew-y-3" onClick={() => {navigate('/login')}}>Login to book your reservation today!</button> 
+          </>
         )}
         </div>
     </Container>
