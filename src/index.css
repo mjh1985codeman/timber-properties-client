@@ -2,6 +2,8 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&family=Cardo&family=Cinzel&display=swap');
+
 :root {
   --bg: #242526;
   --bg-accent: #484a4d;
@@ -11,6 +13,7 @@
   --border-radius: 8px;
   --speed: 500ms;
   --logo-color: hsla(40, 97%, 64%, 0.863);
+  --font-fam: 'Inconsolata', 'Cardo', sans-serif;
 }
 
 body,
@@ -18,19 +21,19 @@ html {
   height: 100%;
   width: 100%;
   margin: 0;
-  background: rgb(32, 61, 96);
-  background: -moz-linear-gradient(49deg, rgba(32, 61, 96, 1) 0%, rgba(28, 52, 82, 1) 4%, rgba(17, 32, 51, 1) 11%, rgba(12, 22, 35, 1) 22%, rgba(16, 31, 49, 1) 45%, rgba(52, 50, 42, 1) 59%, rgba(7, 31, 61, 1) 83%, rgba(40, 53, 63, 1) 93%, rgba(89, 85, 65, 1) 100%, rgba(252, 193, 74, 1) 100%);
-  background: -webkit-linear-gradient(49deg, rgba(32, 61, 96, 1) 0%, rgba(28, 52, 82, 1) 4%, rgba(17, 32, 51, 1) 11%, rgba(12, 22, 35, 1) 22%, rgba(16, 31, 49, 1) 45%, rgba(52, 50, 42, 1) 59%, rgba(7, 31, 61, 1) 83%, rgba(40, 53, 63, 1) 93%, rgba(89, 85, 65, 1) 100%, rgba(252, 193, 74, 1) 100%);
-  background: linear-gradient(49deg, rgba(32, 61, 96, 1) 0%, rgba(28, 52, 82, 1) 4%, rgba(17, 32, 51, 1) 11%, rgba(12, 22, 35, 1) 22%, rgba(16, 31, 49, 1) 45%, rgba(52, 50, 42, 1) 59%, rgba(7, 31, 61, 1) 83%, rgba(40, 53, 63, 1) 93%, rgba(89, 85, 65, 1) 100%, rgba(252, 193, 74, 1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#203d60", endColorstr="#fcc14a", GradientType=1);
+  background: rgb(211, 199, 189);
+  background: -moz-linear-gradient(0deg, rgba(211, 199, 189, 1) 0%, rgba(0, 0, 0, 1) 94%);
+  background: -webkit-linear-gradient(0deg, rgba(211, 199, 189, 1) 0%, rgba(0, 0, 0, 1) 94%);
+  background: linear-gradient(0deg, rgba(211, 199, 189, 1) 0%, rgba(0, 0, 0, 1) 94%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#d3c7bd", endColorstr="#000000", GradientType=1);
   background-attachment: fixed;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Cardo&family=Cinzel&display=swap');
 
 ::-webkit-scrollbar {
   width: 0.5vh;
 }
+
 
 /*Custom Scroll Bar Style */
 
@@ -73,13 +76,13 @@ input[type="date"]:disabled+span>label>span {
 
 .title-text {
   color: var(--text-color);
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
 }
 
 /* Disclaimer Stylings*/
 .big-disclaimer {
   max-width: 500px;
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
   font-size: 25px;
   font-style: italic;
   font-weight: bolder;
@@ -94,7 +97,7 @@ input[type="date"]:disabled+span>label>span {
 }
 
 .disclaimer {
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
   font-size: 16px;
   font-style: italic;
   font-weight: bolder;
@@ -114,7 +117,7 @@ input[type="date"]:disabled+span>label>span {
 }
 
 .disclaimer-text {
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
   font-size: 14px;
   font-style: italic;
   font-weight: bolder;
@@ -139,13 +142,13 @@ input[type="date"]:disabled+span>label>span {
   position: absolute;
   z-index: 9999;
   top: 220px;
-  background-color: hsla(40, 97%, 64%, 0.925);
+  background-color: hsla(0, 0%, 68%, 0.925);
   border: solid hsla(0, 0%, 0%, 0.534);
   box-shadow: 0 3px 10px hsla(40, 92%, 20%, 0.658);
   border-radius: 15px;
   padding: 5px;
   margin-bottom: 2vh;
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
   animation: appear 350ms ease-in 1;
   max-width: 1000px;
   color: hsl(0, 0%, 15%)
@@ -203,7 +206,7 @@ input[type="date"]:disabled+span>label>span {
 /* Navigation Stylings */
 
 .logoutBtn {
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
   font-size: large;
   height: 40px;
   margin-top: 17px;
@@ -231,7 +234,7 @@ input[type="date"]:disabled+span>label>span {
 .active {
   background-color: hsla(0, 100%, 99%, 0.267);
   border-radius: 10px;
-  box-shadow: 0 3px 10px hsla(0, 0%, 100%, 0.856);
+  box-shadow: 0 3px 10px hsla(0, 0%, 0%, 0.589);
 }
 
 .nav-flow-toggle {
@@ -243,13 +246,13 @@ input[type="date"]:disabled+span>label>span {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  background-color: hsla(0, 0%, 91%, 0.13);
+  background-color: hsla(0, 0%, 14%, 0.644);
   border-bottom: solid 3px hsla(61, 100%, 91%, 0.322);
 }
 
 .nav-text {
   color: var(--text-color);
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
 }
 
 .nav-it-group:hover {
@@ -276,9 +279,9 @@ input[type="date"]:disabled+span>label>span {
 
 .home-img {
   display: flex;
-  border: solid 1px hsla(0, 0%, 100%, 0.137);
+  border: solid 2px hsl(0, 0%, 0%);
   border-radius: 15px;
-  box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.377);
+  box-shadow: 0 3px 10px hsla(0, 0%, 0%, 0.856);
   height: 500px;
   max-width: 400px;
 }
@@ -291,7 +294,8 @@ input[type="date"]:disabled+span>label>span {
 }
 
 .home-disclaimer {
-  margin-top: 10%
+  margin-top: 10%;
+  color: var(--text-color);
 }
 
 .pic-title {
@@ -299,7 +303,7 @@ input[type="date"]:disabled+span>label>span {
   background-color: hsla(210, 3%, 39%, 0.781);
   justify-content: center;
   max-width: fit-content;
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
   padding: 7px;
   color: var(--text-color);
   border: hsla(210, 3%, 15%, 0.74) solid 1px;
@@ -314,7 +318,7 @@ input[type="date"]:disabled+span>label>span {
   justify-content: center;
   align-items: center;
   max-width: fit-content;
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
   font-size: 24px;
   padding: 7px;
   color: var(--text-color);
@@ -358,7 +362,7 @@ input[type="date"]:disabled+span>label>span {
 
 .pkg-tab-pill {
   color: var(--text-color);
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
   margin: 0.5rem;
 }
 
@@ -398,7 +402,7 @@ input[type="date"]:disabled+span>label>span {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
   font-size: 20px;
   padding: 7px;
   color: var(--text-color);
@@ -438,7 +442,7 @@ input[type="date"]:disabled+span>label>span {
 .uploadprop-txt {
   margin-top: 6px;
   padding: 5px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: var(--font-fam);
 }
 
 .upload-label-style {
@@ -460,7 +464,7 @@ input[type="date"]:disabled+span>label>span {
   display: flex;
   justify-content: center;
   padding: 1vh;
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
   border-radius: 5px;
 }
 
@@ -479,7 +483,7 @@ User Reservations Stylings */
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
   font-size: 20px;
   color: var(--text-color);
   border-radius: 15px;
@@ -526,7 +530,7 @@ User Reservations Stylings */
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
   font-size: 20px;
   color: var(--text-color);
   border-radius: 15px;
@@ -615,7 +619,7 @@ User Reservations Stylings */
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    font-family: 'Cardo', sans-serif;
+    font-family: var(--font-fam);
     font-size: 20px;
     color: var(--text-color);
     border-radius: 15px;
@@ -696,7 +700,7 @@ User Reservations Stylings */
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
   font-size: 20px;
   color: var(--text-color);
   border-radius: 15px;
@@ -744,7 +748,7 @@ User Reservations Stylings */
 
 .stripe-el label iframe {
   color: var(--text-color);
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
 }
 
 .stripe-content {
@@ -752,12 +756,12 @@ User Reservations Stylings */
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
 }
 
 .p-PaymentDetails-group {
   color: var(--text-color) !important;
-  font-family: 'Cardo', sans-serif;
+  font-family: var(--font-fam);
 }
 
 .res-dp-deets {

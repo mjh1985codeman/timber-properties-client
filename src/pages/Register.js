@@ -5,7 +5,6 @@ import { useMutation } from '@apollo/client';
 import { Container } from 'react-bootstrap';
 
 //Components.
-import Loading from '../components/Loading';
 import Modal from '../components/Modal';
 
 //Controllers and Helpers. 
@@ -24,11 +23,28 @@ export default function Register() {
     const [userPassword, setUserPassword] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [showPWModal, setShowPWModal] = useState(false);
+    const [showDuplicateModal, setShowDuplicateModal] = useState(false);
     const [formClass, setFormClass] = useState('');
+    const [loadingLogin, setLoadingLogin] = useState(false);
 
-    const [addUser, {loading, error, data}] = useMutation(ADD_USER);
+    //const [addUser, {loading, error, data}] = useMutation(ADD_USER);
 
     const alreadyLoggedIn = Auth.loggedIn();
+
+    const [addUser] = useMutation(ADD_USER, {
+      onCompleted: (data) => {
+        setLoadingLogin(false);
+        if(data) {
+        const token = data.addUser.token;
+        Auth.login(token);
+        navigate('/');
+        }
+      },
+      onError: (error) => {
+        setLoadingLogin(false);
+        handleError(error);
+      }
+    })
 
     function resetState() {
       setUserRole("customer");
@@ -40,6 +56,7 @@ export default function Register() {
       setShowModal(false);
       setShowPWModal(false);
       setFormClass("");
+      setShowDuplicateModal(false);
     };
     
     const handleOpenModal = () => {
@@ -50,6 +67,11 @@ export default function Register() {
     const callPWModel = () => {
         setFormClass('modal-open');
         setShowPWModal(true);
+    };
+
+    const callDuplicateModel = () => {
+        setFormClass('modal-open');
+        setShowDuplicateModal(true);
     };
     
     const handleCloseModal = () => {
@@ -82,6 +104,18 @@ export default function Register() {
         };
     }
 
+    function handleError(err) {
+      const errStr = JSON.stringify(err);
+      const error = JSON.parse(errStr);
+      if(error.message) {
+        const message = error.message;
+        const duplicate = message.includes('duplicate');
+        if(duplicate){
+          callDuplicateModel();
+        }
+      }
+    }
+
     async function handleSubmit(e) {
         e.preventDefault();
         const userObj = {
@@ -92,29 +126,24 @@ export default function Register() {
           role: userRole,
           password: userPassword, 
         };
-
         const notEmpty = validator.notEmpty(userObj);
         const enoughCharacters = validator.pwValidator(userObj.password); 
-        //Mutation being called and the propObj being passed in as the variables.
-        console.log('notEmpty: ' , notEmpty);
-        console.log('enoughtCharacters: ' , enoughCharacters);
         if(notEmpty && enoughCharacters) {
-            const mutationResponse = await addUser({
-              variables: {
-                firstName: userObj.firstName,
-                lastName: userObj.lastName,
-                phone: userObj.phone,
-                email: userObj.email,
-                role: userObj.role,
-                password: userObj.password
-              }
-            });
-            //go ahead and log the user in.
-            const token = mutationResponse.data.addUser.token;
-            Auth.login(token);
-            navigate('/');
-            if(loading) return <Loading/>;
-            if(error) console.log('there was an error: ' , error || data);
+            try {
+              setLoadingLogin(true);
+              await addUser({
+                variables: {
+                      firstName: userObj.firstName,
+                      lastName: userObj.lastName,
+                      phone: userObj.phone,
+                      email: userObj.email,
+                      role: userObj.role,
+                      password: userObj.password
+                    }
+              });
+            } catch (error) {
+              //callback will handle the error. 
+            }
         } if (!notEmpty) {
             callOpenModal();
         } if (!enoughCharacters) {
@@ -136,6 +165,12 @@ export default function Register() {
     <Modal handleClose={handleCloseModal} className='modalstyle'>
             <h1>Password Must Be at Least 8 characters!</h1>
             <h4>Please Verify all fields and try again.</h4>
+    </Modal>
+    ) : (null)}
+    {showDuplicateModal ? (
+    <Modal handleClose={handleCloseModal} className='modalstyle'>
+            <h1>Server Rejected Request!</h1>
+            <h4>A User with that Email Already Exists.</h4>
     </Modal>
     ) : (null)}
     <Form className={formClass} id='form' onSubmit={handleSubmit}>
@@ -160,7 +195,7 @@ export default function Register() {
         <h3>Password</h3>
         <input className='calinput' type="password" name="userPassword" value={userPassword} onChange={handleInputChange}/>
         </Form.Label>
-    <button type='submit'>Register</button>
+    <button type='submit'> {loadingLogin ? 'Logging in...' : 'REGISTER'}</button>
     </Form.Group>
     </Form> 
     </Container>

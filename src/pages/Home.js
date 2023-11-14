@@ -19,8 +19,8 @@ const Home = () => {
     <img className ='home-logo' src={mainLogo} alt="a cabin in the snow."></img>
     </div>
     <div className="home-quote">  
-    <blockquote class="text-base md:text-md 3xl:text-lg">
-  Oh I gotta get on that internet, I'm late on everything!
+    <blockquote class="text-white text-3xl md:text-md 3xl:text-lg">
+  Kick Your Feet Up
 </blockquote>
     </div>     
       <div className='home-pic-content'>
@@ -32,7 +32,13 @@ const Home = () => {
                   </a>  
         ) : (
           <>
-          <button className="animate-pulse big-disclaimer home-disclaimer transition ease-in-out delay-100 bg-yellow-500 hover:-translate-y-1 hover:scale-110 hover:bg-yellow-500 duration-200 hover:skew-y-3" onClick={() => {navigate('/login')}}>Login to book your reservation today!</button> 
+  <button className="big-disclaimer hover:bg-blue" onClick={() => {navigate('/login')}}>
+    <span class="ping relative flex h-3 w-3">
+  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gray-700 opacity-75"></span>
+</span>
+Login to book your reservation today!
+  <span class="relative inline-flex rounded-full h-3 w-3 "></span>
+    </button>
           </>
         )}
         </div>
