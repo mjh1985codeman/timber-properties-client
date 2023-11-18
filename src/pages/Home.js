@@ -19,7 +19,7 @@ const Home = () => {
     <img className ='home-logo' src={mainLogo} alt="a cabin in the snow."></img>
     </div>
     <div className="home-quote">  
-    <blockquote class="text-white text-3xl md:text-md 3xl:text-lg">
+    <blockquote class="text-white text-3xl md:text-md 3xl:text-lg glow">
   Kick Your Feet Up
 </blockquote>
     </div>     
@@ -32,8 +32,8 @@ const Home = () => {
                   </a>  
         ) : (
           <>
-  <button className="big-disclaimer hover:bg-blue" onClick={() => {navigate('/login')}}>
-    <span class="ping relative flex h-3 w-3">
+  <button className="big-disclaimer glow" onClick={() => {navigate('/login')}}>
+    <span class="glow ping relative flex h-3 w-3">
   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gray-700 opacity-75"></span>
 </span>
 Login to book your reservation today!
