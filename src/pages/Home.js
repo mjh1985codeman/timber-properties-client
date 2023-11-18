@@ -7,8 +7,6 @@ import mainLogo from '../assets/timber-prop-logo.png';
 
 import { useNavigate } from "react-router-dom";
 
-
-
 const Home = () => {
 
   const navigate = useNavigate();
@@ -17,15 +15,10 @@ const Home = () => {
     <Container className='home-container'>
     <div className="home-title-div">
     <img className ='home-logo' src={mainLogo} alt="a cabin in the snow."></img>
-    </div>
-    <div className="home-quote">  
-    <blockquote class="text-white text-3xl md:text-md 3xl:text-lg glow">
-  Kick Your Feet Up
-</blockquote>
-    </div>     
+    </div>   
       <div className='home-pic-content'>
+        <blockquote>We were completely shocked with how easy it is to book with Timber Properties; the selection of beautiful properties to choose from makes it our 'go-to' source for finding prestine destinations for that much needed 'escape'.</blockquote>
       <Card.Img className="home-img" src={homPic} alt="A beautiful cabin in the snowy woods on a lake." />
-        <Card.Title><h2 className='pic-title'>We have the Properties that are perfect for your next get away.</h2></Card.Title>
         {Auth.loggedIn() ? (
                   <a className='proplink' href={`/properties`}>
                   <h2>View Properties</h2>

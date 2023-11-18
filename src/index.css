@@ -12,7 +12,7 @@
   --border: 1px solid #474a4d;
   --border-radius: 8px;
   --speed: 500ms;
-  --logo-color: hsla(40, 97%, 64%, 0.863);
+  --brand-yellow-color: hsla(40, 97%, 64%, 0.863);
   --font-fam: 'Inconsolata', 'Cardo', sans-serif;
   --glow-shadow: inset 0px 0px 8px hsla(40, 97%, 64%, 0.863), 0 0 15px hsla(40, 97%, 64%, 0.863);
 }
@@ -268,10 +268,6 @@ input[type="date"]:disabled+span>label>span {
   opacity: 0.5;
 }
 
-/* .nav-item:active {
-  color: hsla(40, 97%, 64%, 0.863);
-} */
-
 .toggle-box {
   border: white solid 2px;
 }
@@ -346,17 +342,27 @@ input[type="date"]:disabled+span>label>span {
   justify-content: center;
 }
 
-.home-quote {
+blockquote {
+  max-width: 900px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Cinzel', serif;
-  font-size: 2.5vh;
-  font-weight: bolder;
-  font-style: italic;
   color: var(--text-color);
+  font-family: var(--font-fam);
+  font-size: 24px;
+  font-style: italic;
+  border-left: 2px solid var(--brand-yellow-color);
+  margin: 1.5em 5px;
+  padding: 0.5em 5px;
+  quotes: "\201C" "\201D" "\2018" "\2019";
 }
 
+blockquote:before {
+  color: var(--brand-yellow-color);
+  content: open-quote;
+  font-size: 2em;
+  line-height: 0.1em;
+  margin-right: 0.05em;
+  vertical-align: -0.50em;
+}
 
 .pkg-tab {
   border: var(--text-color) solid 2px;
@@ -418,6 +424,10 @@ input[type="date"]:disabled+span>label>span {
   color: var(--text-color);
   border-radius: 15px;
   box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.377);
+}
+
+.formcontent input {
+  color: #474a4d;
 }
 
 .formcontent h2 {
@@ -536,7 +546,6 @@ User Reservations Stylings */
   display: grid;
   grid-template-columns: auto auto auto;
   padding: 10px;
-  background-color: hsla(210, 10%, 73%, 0.418);
   justify-content: center;
   flex-direction: column;
   align-items: center;
@@ -544,7 +553,6 @@ User Reservations Stylings */
   font-size: 20px;
   color: var(--text-color);
   border-radius: 15px;
-  box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.377);
 }
 
 .propListDiv {
@@ -569,8 +577,7 @@ User Reservations Stylings */
   font-size: 24px;
   font-style: italic;
   font-weight: bold;
-  color: hsl(240, 50%, 10%);
-  text-shadow: 1px 1px 1px hsla(0, 0%, 100%, 0.233), 0 0 1em hsla(0, 0%, 61%, 0.171), 0 0 0.2em rgba(255, 255, 255, 0.342);
+  color: hsl(0, 0%, 100%);
 }
 
 .proplink {
@@ -625,15 +632,12 @@ User Reservations Stylings */
   .propertylist {
     display: flex;
     padding: 5px;
-    background-color: hsla(210, 10%, 73%, 0.418);
     justify-content: center;
     flex-direction: column;
     align-items: center;
     font-family: var(--font-fam);
     font-size: 20px;
     color: var(--text-color);
-    border-radius: 15px;
-    box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.377);
   }
 
   .resCard {
@@ -706,21 +710,18 @@ User Reservations Stylings */
 .propDetailDiv {
   display: flex;
   padding: 5px;
-  background-color: hsla(210, 10%, 73%, 0.418);
   justify-content: center;
   flex-direction: column;
   align-items: center;
   font-family: var(--font-fam);
   font-size: 20px;
   color: var(--text-color);
-  border-radius: 15px;
-  box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.377);
 }
 
 .propimg {
+  padding: 1px;
   max-height: 700px;
   border: solid white 1px;
-  border-radius: 20px;
 }
 
 .carousel-control-prev-icon {

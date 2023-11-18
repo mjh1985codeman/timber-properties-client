@@ -82,6 +82,12 @@ export default function Register() {
         handleOpenModal();
     };
 
+    function formatPhoneNumber(phoneNumber) {
+      const cleanedPhoneNumber = phoneNumber.replace(/\D/g, ""); // Remove non-digit characters
+      const formattedPhoneNumber = cleanedPhoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+      return formattedPhoneNumber;
+  }
+
     function handleInputChange(e) {
         e.preventDefault();
         
@@ -185,7 +191,7 @@ export default function Register() {
         </Form.Label>
         <Form.Label className='formlabel'>
           <h3>Phone Number</h3>
-          <input className='calinput' type="text" name="userPhone" value={userPhone} onChange={handleInputChange}/>
+          <input className='calinput' placeholder='xxx-xxx-xxxx' type="tel" name="userPhone" value={formatPhoneNumber(userPhone)} maxLength={12} onChange={handleInputChange}/>
         </Form.Label>
         <Form.Label className='formlabel'>
           <h3>Email</h3>
