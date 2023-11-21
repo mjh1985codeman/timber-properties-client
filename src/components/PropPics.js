@@ -35,7 +35,7 @@ export default function PropPics({propIdForPics}) {
         if(picArray.length > 0) {
             return (
             <>
-            <Carousel>
+            <Carousel className='pic-carousel'>
             {picArray.map(pic => (
                 <Carousel.Item  key={propIdForPics + Math.random()} className="carousel-item">
                     <img

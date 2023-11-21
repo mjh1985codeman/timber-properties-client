@@ -27,7 +27,7 @@ export default function CoverPic({propIdForCover}) {
             <>
                 <div key={propIdForCover + Math.random()}>       
                     <img
-                    className="d-block propimg w-100 img-fluid"
+                    className="d-block propimg w-100 img-fluid cover-pic"
                     style={{ objectFit: 'cover', height: '300px', width: '300px' }}
                     src={coverPic}
                     alt="One of one or more visuals of the property."

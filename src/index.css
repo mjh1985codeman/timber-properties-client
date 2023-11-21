@@ -555,6 +555,16 @@ User Reservations Stylings */
   border-radius: 15px;
 }
 
+.cover-pic {
+  object-fit: cover;
+  height: 300px;
+  /* Adjust the height according to your design */
+  width: 100%;
+  /* Ensures the image takes up the full width of its container */
+  border-radius: 15px;
+  /* Apply the same border-radius as the property card */
+}
+
 .propListDiv {
   margin: 1vh;
 }
@@ -567,6 +577,7 @@ User Reservations Stylings */
   margin: 1vh;
   padding: 10px;
   text-align: center;
+  width: 400px
 }
 
 .propertyCard h2 {
@@ -638,6 +649,16 @@ User Reservations Stylings */
     font-family: var(--font-fam);
     font-size: 20px;
     color: var(--text-color);
+  }
+
+  .propertyCard {
+    border: solid hsla(0, 0%, 15%, 0.349) 0.2vh;
+    background-color: hsla(212, 82%, 15%, 0.425);
+    box-shadow: 0 3px 10px hsla(40, 97%, 64%, 0.562);
+    border-radius: 15px;
+    margin: 1vh;
+    padding: 10px;
+    text-align: center;
   }
 
   .resCard {
@@ -718,10 +739,15 @@ User Reservations Stylings */
   color: var(--text-color);
 }
 
+.pic-carousel {
+  max-width: 900px;
+  border: solid white 1px;
+}
+
 .propimg {
-  padding: 1px;
   max-height: 700px;
   border: solid white 1px;
+  object-fit: cover;
 }
 
 .carousel-control-prev-icon {
