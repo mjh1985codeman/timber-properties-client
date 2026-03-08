@@ -156,9 +156,9 @@ function callDeclineModal() {
        </div>
        <div>{property.addressSt}.  {property.city}, {property.state} {property.zip}</div>
        <h3>Check In:</h3>
-       <div>{reservation.beginDate}</div>
+       <div>{Format.dateFormat(reservation.beginDate)}</div>
        <h3>Check Out:</h3>
-       <div>{reservation.endDate}</div>
+       <div>{Format.dateFormat(reservation.endDate)}</div>
     </div>  
     <div className="res-dp-deets">
     <h2>Payment Details</h2>

@@ -10,6 +10,14 @@ import Format from '../helpers/formatter';
 import Auth from '../helpers/auth';
 const {GET_PROPERTY_BY_ID} = require('../controllers/queries');
 
+// Converts a UTC Date to a YYYY-MM-DD string using UTC date parts.
+function utcDateStr(date) {
+    const y = date.getUTCFullYear();
+    const m = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const d = String(date.getUTCDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+}
+
 export default function ReservePropDataForm({propertyId, currentReservations}) {
 
     const [resBd, setResBd] = useState("");
@@ -67,22 +75,19 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
     let numberOfNights = 0;
     
     useEffect(() => {
-        const unavailableDates = [];
+        const unavailableDateStrings = [];
         currentReservations.forEach(range => {
-        let currentDate = new Date(range.beginDate);
-        currentDate.setSeconds(0);
-        currentDate.setMinutes(0);
-        currentDate.setHours(0);
-        while(currentDate <= new Date(range.endDate)) {
-          unavailableDates.push(new Date(currentDate));
-          currentDate.setDate(currentDate.getDate() + 1);
-        }
+          const current = new Date(range.beginDate);
+          const end = range.endDate;
+          while (current <= end) {
+            unavailableDateStrings.push(utcDateStr(current));
+            current.setUTCDate(current.getUTCDate() + 1);
+          }
         });
-        setUnavailable(unavailableDates);
+        setUnavailable(unavailableDateStrings);
     },[currentReservations]); 
     
-  // Get the disabled dates: 
-  const disabledDates = unavailable ? unavailable.map(date => date.toISOString().slice(0, 10)) : [];
+  const disabledDates = unavailable || [];
   
   function handleCloseModal() {
     setShowErrorModal(false);
@@ -93,16 +98,12 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
 
     const handleCheckInDateSelect = (date) => {
       setCheckInDate(date);
-      const dateObject = new Date(date);
-      const formattedDate = dateObject.toISOString().slice(0, 10);
-      setResBd(formattedDate);
+      setResBd(Format.toDateString(date));
     };
 
     const handleCheckOutDateSelect = (date) => {
       setCheckOutDate(date);
-      const dateObject = new Date(date);
-      const formattedDate = dateObject.toISOString().slice(0, 10);
-      setResEd(formattedDate);
+      setResEd(Format.toDateString(date));
     };
 
     function getResNumberOfNights(resDates) {
@@ -112,38 +113,35 @@ export default function ReservePropDataForm({propertyId, currentReservations}) {
 
     function getRequestedDateRange() {
       const allRequestedDates = [];
-      let currentDate = checkInDate;
-      if(currentDate) {
-        currentDate.setHours(0);
-        currentDate.setMinutes(0);
-        currentDate.setSeconds(0);
-    
-        while (currentDate <= checkOutDate) {
-          allRequestedDates.push(new Date(currentDate));
-          currentDate.setDate(currentDate.getDate() + 1); // add one day
-        };
+      if (!checkInDate || !checkOutDate) return allRequestedDates;
+      const current = new Date(checkInDate);
+      current.setHours(0, 0, 0, 0);
+      const end = new Date(checkOutDate);
+      end.setHours(0, 0, 0, 0);
+
+      while (current <= end) {
+        allRequestedDates.push(Format.toDateString(new Date(current)));
+        current.setDate(current.getDate() + 1);
       }
       return allRequestedDates;
     };
 
     function verifyRange() {  
-         // will need to compare this wiht the unavailable range to check for overlap.
         const requestedDates = getRequestedDateRange();
         let goodRange = true;
         if(requestedDates.length > 60) {
           setShowMaxRangeError(true);
-          goodRange = 'Maximum Dates Exceeded'
-        }; 
+          goodRange = 'Maximum Dates Exceeded';
+        }
         if(requestedDates.length <= 0) {
           goodRange = false;
         }
-        if(requestedDates) {
-          for (let i = 0; i < requestedDates.length; i++) {
-            if (unavailable.toString().includes(requestedDates[i].toString())) {
-              goodRange = false;
-            }
-            numberOfNights = getResNumberOfNights(requestedDates); 
-          };
+        const unavailableSet = new Set(disabledDates);
+        for (let i = 0; i < requestedDates.length; i++) {
+          if (unavailableSet.has(requestedDates[i])) {
+            goodRange = false;
+          }
+          numberOfNights = getResNumberOfNights(requestedDates);
         }
         return goodRange;
       };

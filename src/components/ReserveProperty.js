@@ -15,11 +15,12 @@ export default function ReserveProperty() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error}</p>;
 
-  const currentReservations = data.getReservationsByPropertyId.map((res) => {
-    const beginDate = new Date(parseInt(res.beginDate));
-    const endDate = new Date(parseInt(res.endDate));
-    return { beginDate, endDate };
-  });
+  // Dates come as epoch-ms strings from GraphQL. Parse them back to Date objects.
+  // These are stored at noon UTC, so UTC methods should be used when iterating over date ranges.
+  const currentReservations = data.getReservationsByPropertyId.map((res) => ({
+    beginDate: new Date(parseInt(res.beginDate)),
+    endDate: new Date(parseInt(res.endDate)),
+  }));
 
   return (
     <ReservePropDataForm

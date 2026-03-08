@@ -1,30 +1,21 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useMemo } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function DatePickerComp({ unavailableDates, onDateSelect }) {
   const [selectedDate, setSelectedDate] = useState(null);
-  const [disabledDates, setDisabledDates] = useState([]);
-  const takenDatesRef = useRef([]);
 
-  const timeZoneOffset = -5; // UTC-5 for Central Daylight Time
-
-  // Use useMemo to compute the takenDates array only when the unavailableDates prop changes
-  const takenDates = useMemo(
+  // Convert YYYY-MM-DD strings to local Date objects for the date picker.
+  // Using the (year, month, day) constructor creates local midnight,
+  // which is what react-datepicker compares against.
+  const disabledDates = useMemo(
     () =>
-      unavailableDates.map((date) => {
-        const [year, month, day] = date.split("-");
-        return new Date(
-          Date.UTC(year, month - 1, day, 0, 0, 0) - timeZoneOffset * 60 * 60 * 1000
-        );
+      unavailableDates.map((dateStr) => {
+        const [year, month, day] = dateStr.split("-").map(Number);
+        return new Date(year, month - 1, day);
       }),
-    [unavailableDates, timeZoneOffset]
+    [unavailableDates]
   );
-
-  useEffect(() => {
-    takenDatesRef.current = takenDates;
-    setDisabledDates(takenDates);
-  }, [takenDates]);
 
   const handleSelectedDate = (date) => {
     setSelectedDate(date);
@@ -32,15 +23,13 @@ export default function DatePickerComp({ unavailableDates, onDateSelect }) {
   };
 
   return (
-    <>
-      <DatePicker
-        onChange={handleSelectedDate}
-        selected={selectedDate}
-        excludeDates={disabledDates}
-        minDate={new Date()}
-        withPortal
-        disabledKeyboardNavigation
-      />
-    </>
+    <DatePicker
+      onChange={handleSelectedDate}
+      selected={selectedDate}
+      excludeDates={disabledDates}
+      minDate={new Date()}
+      withPortal
+      disabledKeyboardNavigation
+    />
   );
 }
