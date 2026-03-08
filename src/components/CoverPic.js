@@ -9,16 +9,17 @@ export default function CoverPic({propIdForCover}) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await fetch(url);
-            if(result.status === 403) {
-                setHasCover(false);
-            };
-            result.json().then(jsonData => {
+            try {
+                const result = await fetch(url);
+                if (!result.ok) {
+                    setHasCover(false);
+                    return;
+                }
+                const jsonData = await result.json();
                 setCoverPic(jsonData.cover.cImg);
-            })
-            .catch(error => {
-                return error;
-            })
+            } catch (error) {
+                setHasCover(false);
+            }
         }
         fetchData();
     }, [url]);
@@ -41,3 +42,5 @@ export default function CoverPic({propIdForCover}) {
         return <Loading/>
         }
 };
+
+

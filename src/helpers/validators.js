@@ -13,11 +13,10 @@ class Validator {
     };
   
     pwValidator(pw) {
-      if (pw.length < 0) {
-        return false;
-      } else if (pw.length >= 8) {
+      if (pw.length >= 8) {
         return true;
       }
+      return false;
     };
 
     capitalizeFirstLetter(string) {

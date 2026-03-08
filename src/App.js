@@ -97,11 +97,12 @@ function App() {
           </>
         ) : (        
         <Route
-          render={() => (
+          path="*"
+          element={
             <h1 className="display-2">
               You Must Be Logged In To See This Page.
             </h1>
-          )}
+          }
         />)}
         <Route path="/properties/:propertyId" element={<PropertyDetails/>}/>
         <Route path="/requestpwreset" element={<ResetPWRequestComp/>}/>
@@ -109,13 +110,14 @@ function App() {
         <Route path="/downpayment" element={<DownPayment/>}/>
      
         <Route
-          render={() => (
+          path="*"
+          element={
             <h1 className="display-2">
               Oh My. . .You're lost. Try not to make up url routes because
               you have no idea where you'll end up! Play it safe and click
               on a link in the NavBar to get back on track.
             </h1>
-          )}
+          }
         />
       </Routes>
   </Router>

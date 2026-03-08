@@ -17,7 +17,7 @@ const Home = () => {
     <img className ='home-logo' src={mainLogo} alt="a cabin in the snow."></img>
     </div>   
       <div className='home-pic-content'>
-        <blockquote>We were completely shocked with how easy it is to book with Timber Properties; the selection of beautiful properties to choose from makes it our 'go-to' source for finding prestine destinations for that much needed 'escape'.</blockquote>
+        <blockquote>We were completely shocked with how easy it is to book with Timber Properties; the selection of beautiful properties to choose from makes it our 'go-to' source for finding pristine destinations for that much needed 'escape'.</blockquote>
       <Card.Img className="home-img" src={homPic} alt="A beautiful cabin in the snowy woods on a lake." />
         {Auth.loggedIn() ? (
                   <a className='proplink' href={`/properties`}>
@@ -26,11 +26,11 @@ const Home = () => {
         ) : (
           <>
   <button className="big-disclaimer glow" onClick={() => {navigate('/login')}}>
-    <span class="glow ping relative flex h-3 w-3">
-  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gray-700 opacity-75"></span>
+    <span className="glow ping relative flex h-3 w-3">
+  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gray-700 opacity-75"></span>
 </span>
 Login to book your reservation today!
-  <span class="relative inline-flex rounded-full h-3 w-3 "></span>
+  <span className="relative inline-flex rounded-full h-3 w-3 "></span>
     </button>
           </>
         )}

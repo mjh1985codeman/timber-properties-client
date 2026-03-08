@@ -10,16 +10,17 @@ export default function PropPics({propIdForPics}) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await fetch(url);
-            if(result.status === 403) {
-                setHasPics(false);
-            };
-            result.json().then(json => {
+            try {
+                const result = await fetch(url);
+                if (!result.ok) {
+                    setHasPics(false);
+                    return;
+                }
+                const json = await result.json();
                 updateImageArray(json);
-            })
-            .catch(error => {
-                return error;
-            })
+            } catch (error) {
+                setHasPics(false);
+            }
         }
         fetchData();
     }, [url]);
