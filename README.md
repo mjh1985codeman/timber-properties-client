@@ -1,74 +1,76 @@
-# Timber Properties 
+# Timber Properties - Client
 
-## Description
-![ScreenShot](./src/assets/timber-prop-logo.png)
+The frontend for **Timber Properties**, a full-stack MERN rental property platform. Property owners and staff can manage listings and upload images, while renters can browse, reserve, and pay down payments online.
 
-This is a Full Stack (MERN) application I built where a rental property owner (and their staff) can host their various properties so that potential renters can review and reserve their properties.
+**Live:** [timber-properties.netlify.app](https://timber-properties.netlify.app/)
+**Backend Repo:** [timber-ranch](https://github.com/mjh1985codeman/timber-ridge)
 
-You can checkout out the BackEnd (Server) Side Code [here](https://github.com/mjh1985codeman/timber-ridge).
+## Features
 
-## Tech Used
+- **Property browsing** - View all available rental properties with photos and details
+- **Reservation flow** - Select dates with validation, then secure the booking with a Stripe down payment (50% of total)
+- **Role-based access** - Admin users can add properties and upload images to S3; customers can browse and reserve
+- **User accounts** - Registration, login, and password reset via email
+- **Responsive UI** - Built with React, Bootstrap, and Tailwind CSS
 
-![react-logo](./src/assets/react-logo.png)
-- React JS
-    - What is this?
-    - - A very popular Javascript framework developed by FaceBook it's a front end technology that is used to build scalable and fast web applictions.  You can check out the docs [here](https://react.dev/)
+## Tech Stack
 
-![aws-logo](./src/assets/icons8-amazon-web-services-96.png)
-- Amazon Web Services (S3)
-    - What is this?
-    - - I used the S3 Bucket service from AWS to store and retrieve base64 encrypted json strings which houses the image data for the property pictures.  This was a great tool that I learned to utilize for the first time by searching through the docs which you can find [here](https://aws.amazon.com/s3/).  
+| Layer | Technologies |
+|-------|-------------|
+| **Framework** | React 18, React Router 6 |
+| **State / API** | Apollo Client 3, GraphQL |
+| **UI** | Bootstrap 5, React Bootstrap, Tailwind CSS |
+| **Payments** | Stripe (React Stripe.js) |
+| **Auth** | JWT (jwt-decode) |
+| **Build** | Create React App |
+| **Deployment** | Netlify |
 
-![logo](./src/assets/icons8-json-web-token-48.png)
-- JSON WebToken.
-   - What is this? 
-   - - In authentication, when the user successfully logs in using their credentials, a JSON Web Token will be returned.  In its compact form, JSON Web Tokens consist of three parts separated by dots (.), which are: Header, Payload and Signature...This application uses JWT for Authorization purposes.  To learn more you can check out the docs [here](https://jwt.io/introduction).
+## Getting Started
 
-![logo](./src/assets/dot_env.png)
-- dotenv (to protect secret variables). 
-    - What is this? 
-    - - It's a npm that helps keep sensitive environment variables secure by allowing them to be stored in a .env file which can then be called upon throughout the application without actually being "part" of the code.  To learn more you can check out the docs [here](https://www.npmjs.com/package/dotenv).
+### Prerequisites
 
-![logo](./src/assets/icons8-encrypt-50.png)
-- bcryptjs
-    - What is this?
-    - - An npm package that is used to encrypt passwords so that they are not visible outside the initial payload sent in by the client (IE: They are encypted in the database as well as the server responses).  Feel free to see the docs [here](https://www.npmjs.com/package/bcryptjs).
+- Node.js 18+
+- The [Timber Ranch backend](https://github.com/mjh1985codeman/timber-ridge) running locally or deployed
 
-![mongoose-logo](./src/assets/icons8-mongoose-48.png)
-- mongoose
-    - What is this? 
-    - - An Object modeler for node.js to be used in conjunction with a MongoDB database (which is what this application utilizes).  In short; it just makes working with MongoDB easier. Again, feel free to check out their docs [here](https://mongoosejs.com/docs/guide.html).
+### Setup
 
-![mongodb-logo](./src/assets/icons8-mongodb-48.png)
-- MongoDB (Specifically Atlas)
-    - What is this?
-    - - MongoDB Atlas is a great tool that essentially hosts our data in the cloud.  I've used it for many projects and I find it very easy to work with; check out the docs [here](https://www.mongodb.com/docs/atlas/getting-started/).
+1. Install dependencies:
 
-![apollo-logo](./src/assets/icons8-apollo-48.png)
-- Apollo Client and Apollo Server
-    - What is this?
-    - - Apollo Client and Apollo Server is a developer platform that is used in conjunction with a GraphQL API to build schema's which serves as a middleware between the server and the MongoDB.  It's a great tool that I've used on a few different projects.  You can checkout the docs [here](https://www.apollographql.com/docs/) and for the react Apollo Client information you can see that [here](https://www.apollographql.com/docs/react)
+   ```bash
+   npm install
+   ```
 
-![courier-logo](./src//assets/courier_logo.png)
-- Courier
-    - What is this?
-    - - Courier is a great service that I discovered when looking for way to implement email notifications.  You can checkout their docs [here](https://www.courier.com/docs/)
+2. Start the development server:
 
-![stripe-logo](./src/assets/stripe-logo.png)
-- Stripe
-    - What is this?
-    - - Stripe at its core is a Payment Processor.  In this application I setup a demo account and implemented a custom built payment flow that is utilized for customers to secure their reservation by paying a 'down payment' for the reservation.  One the payment is successfully processed the reservation is then created and stored in the DB.  Stripe is the Payment Technology that handles the payment processing in a secure way.  You can reveiw their docs [here](https://stripe.com/docs/payments)
+   ```bash
+   npm start
+   ```
 
+   The app runs on `http://localhost:3000` and expects the GraphQL API at `http://localhost:3001`.
 
-## Deployed
-Click [Here](https://timber-properties.netlify.app/) to see it. 
+## Scripts
 
-![deployed-ss](./src/assets/deployedSS.png)
+| Command | Description |
+|---------|-------------|
+| `npm start` | Start the development server |
+| `npm run build` | Build for production |
+| `npm test` | Run tests |
 
-## ReadMe Icon Cred
-Tech Icons Courtesy of <a target="_blank" href="https://icons8.com">Icons8</a>
+## Project Structure
 
+```
+timber-properties-client/
+├── src/
+│   ├── pages/          # Home, Properties, PropertyDetails, Login, Register, AddProperty, UserReservations
+│   ├── components/     # CheckoutFormForDp, ReserveProperty, DatePickerComp, PropPics, CoverPic
+│   ├── controllers/    # GraphQL queries and mutations
+│   ├── helpers/        # Auth, formatters, validators, base64 utils
+│   ├── assets/         # Images and icons
+│   ├── App.js
+│   └── index.js
+└── package.json
+```
 
+## Related
 
-
-
+- **Backend:** [timber-ranch](https://github.com/mjh1985codeman/timber-ridge) | [API Endpoint](https://gql-api-timber-properties.onrender.com/graphql)
